@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:campfire_cooking",
+  "ingredient": {
+    "item": "pelmenicraft:pelmen"
+  },
+  "result": "pelmenicraft:fried_pelmen",
+  "experience": 0.15,
+  "cookingtime": 600
+}

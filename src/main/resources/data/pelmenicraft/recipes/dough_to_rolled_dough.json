@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "pelmenicraft:dough"
+    },
+    {
+      "item": "pelmenicraft:rolling_pin"
+    }
+  ],
+  "result": {
+    "item": "pelmenicraft:rolled_dough"
+  }
+}

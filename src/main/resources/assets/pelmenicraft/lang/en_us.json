@@ -1,0 +1,14 @@
+{
+  "item.pelmenicraft.pelmen": "Pelmen",
+  "item.pelmenicraft.mayonnaise": "Mayonnaise",
+  "item.pelmenicraft.groundmeat": "Ground meat",
+  "item.pelmenicraft.dough": "Dough",
+  "item.pelmenicraft.rolled_dough": "Rolled dough",
+  "item.pelmenicraft.pelmeni_bowl": "Bowl of pelmens",
+  "item.pelmenicraft.fried_pelmen": "Fried pelmen",
+  "item.pelmenicraft.fried_pelmeni_bowl": "Bowl of fried pelmens",
+  "item.pelmenicraft.rolling_pin": "Rolling pin",
+  "block.pelmenicraft.pelmeni_block": "Block of pelmens",
+  "block.pelmenicraft.fried_pelmeni_block": "Block of fried pelmens",
+  "itemGroup.pelmeniCraftTab": "Pelmeni Craft"
+}

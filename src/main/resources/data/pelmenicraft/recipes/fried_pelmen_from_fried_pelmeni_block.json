@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "pelmenicraft:fried_pelmeni_block"
+    }
+  ],
+  "result": {
+    "item": "pelmenicraft:fried_pelmen",
+    "count": 9
+  }
+}
