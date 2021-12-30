@@ -1,6 +1,7 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "pelmenicraft:item/cumpot"
+    "layer0": "minecraft:item/potion",
+    "layer1": "pelmenicraft:item/cumpot"
   }
 }
