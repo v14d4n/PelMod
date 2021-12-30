@@ -1,6 +1,7 @@
 package com.v14d4n.pelmenicraft.item;
 
 import com.v14d4n.pelmenicraft.PelmeniCraft;
+import com.v14d4n.pelmenicraft.item.custom.Cumpot;
 import com.v14d4n.pelmenicraft.item.custom.RollingPin;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.item.Food;
@@ -19,6 +20,16 @@ public class ModItems {
 
     public static final RegistryObject<Item> ROLLING_PIN = ITEMS.register("rolling_pin",
             () -> new RollingPin(new Item.Properties().tab(ModItemGroup.PELMENICRAFT_GROUP).durability(8)));
+
+    public static final RegistryObject<Item> CUMPOT = ITEMS.register("cumpot",
+            () -> new Cumpot(new Item.Properties()
+                    .tab(ModItemGroup.PELMENICRAFT_GROUP)
+                    .stacksTo(1)
+                    .food(new Food.Builder()
+                            .alwaysEat()
+                            .effect(() -> new EffectInstance(
+                                    Effects.DAMAGE_BOOST, 100, 1), 1f)
+                            .build())));
 
     public static final RegistryObject<Item> PELMEN = ITEMS.register("pelmen",
             () -> new Item(new Item.Properties()

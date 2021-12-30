@@ -1,6 +1,5 @@
 package com.v14d4n.pelmenicraft.item.custom;
 
-import net.minecraft.client.renderer.texture.ITickable;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;

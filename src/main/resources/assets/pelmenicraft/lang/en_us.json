@@ -8,7 +8,10 @@
   "item.pelmenicraft.fried_pelmen": "Fried pelmen",
   "item.pelmenicraft.fried_pelmeni_bowl": "Bowl of fried pelmens",
   "item.pelmenicraft.rolling_pin": "Rolling pin",
+  "item.pelmenicraft.cumpot": "Cumpot",
+
   "block.pelmenicraft.pelmeni_block": "Block of pelmens",
   "block.pelmenicraft.fried_pelmeni_block": "Block of fried pelmens",
+
   "itemGroup.pelmeniCraftTab": "Pelmeni Craft"
 }
