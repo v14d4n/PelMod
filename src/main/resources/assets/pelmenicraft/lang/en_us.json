@@ -1,17 +1,18 @@
 {
   "item.pelmenicraft.pelmen": "Pelmen",
   "item.pelmenicraft.mayonnaise": "Mayonnaise",
-  "item.pelmenicraft.groundmeat": "Ground meat",
+  "item.pelmenicraft.groundmeat": "Ground Meat",
   "item.pelmenicraft.dough": "Dough",
   "item.pelmenicraft.rolled_dough": "Rolled dough",
   "item.pelmenicraft.pelmeni_bowl": "Bowl of pelmens",
-  "item.pelmenicraft.fried_pelmen": "Fried pelmen",
+  "item.pelmenicraft.fried_pelmen": "Fried Pelmen",
   "item.pelmenicraft.fried_pelmeni_bowl": "Bowl of fried pelmens",
-  "item.pelmenicraft.rolling_pin": "Rolling pin",
+  "item.pelmenicraft.rolling_pin": "Rolling Pin",
   "item.pelmenicraft.cumpot": "Cumpot",
 
-  "block.pelmenicraft.pelmeni_block": "Block of pelmens",
-  "block.pelmenicraft.fried_pelmeni_block": "Block of fried pelmens",
+  "block.pelmenicraft.pelmeni_block": "Pelmens Block",
+  "block.pelmenicraft.fried_pelmeni_block": "Fried Pelmens Block",
+  "block.pelmenicraft.meat_grinder": "Meat Grinder",
 
   "itemGroup.pelmeniCraftTab": "Pelmeni Craft"
 }

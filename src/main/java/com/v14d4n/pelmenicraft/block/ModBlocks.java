@@ -1,6 +1,7 @@
 package com.v14d4n.pelmenicraft.block;
 
 import com.v14d4n.pelmenicraft.PelmeniCraft;
+import com.v14d4n.pelmenicraft.block.custom.MeatGrinderBlock;
 import com.v14d4n.pelmenicraft.item.ModItemGroup;
 import com.v14d4n.pelmenicraft.item.ModItems;
 import net.minecraft.block.AbstractBlock;
@@ -29,6 +30,15 @@ public class ModBlocks {
     public static final RegistryObject<Block> FRIED_PELMENI_BLOCK = registerBlock("fried_pelmeni_block",
             () -> new Block(AbstractBlock.Properties.of(Material.SNOW).sound(SoundType.SNOW)
                     .strength(1.5f).harvestLevel(0).harvestTool(ToolType.SHOVEL)));
+
+    public static final RegistryObject<Block> MEAT_GRINDER = registerBlock("meat_grinder",
+            () -> new MeatGrinderBlock(AbstractBlock.Properties.of(Material.METAL)
+                    .sound(SoundType.METAL)
+                    .harvestTool(ToolType.PICKAXE)
+                    .harvestLevel(0)
+                    .strength(3f)
+                    .requiresCorrectToolForDrops()
+                    .noOcclusion()));
 
     public static <T extends Block> RegistryObject<T> registerBlock(String name, Supplier<T> block) {
         RegistryObject<T> toReturn = BLOCKS.register(name, block);
