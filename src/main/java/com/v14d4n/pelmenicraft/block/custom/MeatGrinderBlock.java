@@ -3,7 +3,13 @@ package com.v14d4n.pelmenicraft.block.custom;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.HorizontalBlock;
+import net.minecraft.client.particle.DiggingParticle;
+import net.minecraft.client.particle.Particle;
+import net.minecraft.client.particle.ParticleManager;
 import net.minecraft.item.BlockItemUseContext;
+import net.minecraft.item.Items;
+import net.minecraft.particles.BlockParticleData;
+import net.minecraft.particles.ParticleTypes;
 import net.minecraft.state.StateContainer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.shapes.IBooleanFunction;
@@ -11,6 +17,7 @@ import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
+import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
 import java.util.stream.Stream;
@@ -188,6 +195,8 @@ public class MeatGrinderBlock extends HorizontalBlock {
             Block.makeCuboidShape(7.06264, 6.25, 12.43736, 9.06264, 8.25, 12.43736)
     ).reduce((v1, v2) -> VoxelShapes.combineAndSimplify(v1, v2, IBooleanFunction.OR)).get();
 
+
+
     @Override
     public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
         switch (state.get(HORIZONTAL_FACING)) {
@@ -200,6 +209,18 @@ public class MeatGrinderBlock extends HorizontalBlock {
             default:
                 return SHAPE_N;
         }
+    }
+
+    @Override
+    public boolean addDestroyEffects(BlockState state, World world, BlockPos pos, ParticleManager manager) {
+        for (int i = 0; i < 10; i++) {
+            manager.addParticle(new BlockParticleData(ParticleTypes.BLOCK, state),
+                    pos.getX() + 0.5d,
+                    pos.getY() + 0.6d - RANDOM.nextDouble() / 2d,
+                    pos.getZ() + 0.5d,
+                    0.00d, 0.05d, 0.00d);
+        }
+        return true;
     }
 
     @Override

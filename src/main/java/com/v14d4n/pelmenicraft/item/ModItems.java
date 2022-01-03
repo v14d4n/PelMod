@@ -19,11 +19,11 @@ public class ModItems {
             DeferredRegister.create(ForgeRegistries.ITEMS, PelmeniCraft.MOD_ID);
 
     public static final RegistryObject<Item> ROLLING_PIN = ITEMS.register("rolling_pin",
-            () -> new RollingPin(new Item.Properties().group(ModItemGroup.PELMENICRAFT_GROUP).defaultMaxDamage(8)));
+            () -> new RollingPin(new Item.Properties().group(ModItemGroup.PELMENICRAFT_GROUP)
+                    .defaultMaxDamage(8)));
 
     public static final RegistryObject<Item> CUMPOT = ITEMS.register("cumpot",
-            () -> new Cumpot(new Item.Properties()
-                    .group(ModItemGroup.PELMENICRAFT_GROUP)
+            () -> new Cumpot(new Item.Properties().group(ModItemGroup.PELMENICRAFT_GROUP)
                     .maxStackSize(1)
                     .food(new Food.Builder()
                             .setAlwaysEdible()
@@ -32,8 +32,7 @@ public class ModItems {
                             .build())));
 
     public static final RegistryObject<Item> PELMEN = ITEMS.register("pelmen",
-            () -> new Item(new Item.Properties()
-                    .group(ModItemGroup.PELMENICRAFT_GROUP)
+            () -> new Item(new Item.Properties().group(ModItemGroup.PELMENICRAFT_GROUP)
                     .food(new Food.Builder()
                             .fastToEat()
                             .meat()
@@ -42,8 +41,7 @@ public class ModItems {
                             .build())));
 
     public static final RegistryObject<Item> FRIED_PELMEN = ITEMS.register("fried_pelmen",
-            () -> new Item(new Item.Properties()
-                    .group(ModItemGroup.PELMENICRAFT_GROUP)
+            () -> new Item(new Item.Properties().group(ModItemGroup.PELMENICRAFT_GROUP)
                     .food(new Food.Builder()
                             .fastToEat()
                             .meat()
@@ -62,8 +60,8 @@ public class ModItems {
                             .build())));
 
     public static final RegistryObject<Item> PELMENI_BOWL = ITEMS.register("pelmeni_bowl",
-            () -> new SoupItem(new Item.Properties().maxStackSize(1)
-                    .group(ModItemGroup.PELMENICRAFT_GROUP)
+            () -> new SoupItem(new Item.Properties().group(ModItemGroup.PELMENICRAFT_GROUP)
+                    .maxStackSize(1)
                     .food(new Food.Builder()
                             .hunger(14)
                             .saturation(2f)
@@ -72,8 +70,8 @@ public class ModItems {
                             .build())));
 
     public static final RegistryObject<Item> FRIED_PELMENI_BOWL = ITEMS.register("fried_pelmeni_bowl",
-            () -> new SoupItem(new Item.Properties().maxStackSize(1)
-                    .group(ModItemGroup.PELMENICRAFT_GROUP)
+            () -> new SoupItem(new Item.Properties().group(ModItemGroup.PELMENICRAFT_GROUP)
+                    .maxStackSize(1)
                     .food(new Food.Builder()
                             .hunger(16)
                             .saturation(2.6f)

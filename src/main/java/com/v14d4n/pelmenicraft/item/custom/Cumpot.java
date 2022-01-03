@@ -7,7 +7,6 @@ import net.minecraft.world.World;
 public class Cumpot extends Item {
     public Cumpot(Properties properties) {
         super(properties);
-
     }
 
     @Override
@@ -24,14 +23,4 @@ public class Cumpot extends Item {
     //TODO:
     // сделать возможным переносить сразу 16 бутылок и реализовать выдачу пустой бутылки после использования
     // в том числе обработать выдачу бутылок при переполненном инвентаре
-
-    @Override
-    public ItemStack getContainerItem(ItemStack itemStack) {
-        return super.getContainerItem(itemStack);
-    }
-
-    @Override
-    public boolean hasContainerItem(ItemStack stack) {
-        return super.hasContainerItem(stack);
-    }
 }
