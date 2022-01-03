@@ -24,21 +24,21 @@ public class ModBlocks {
             DeferredRegister.create(ForgeRegistries.BLOCKS, PelmeniCraft.MOD_ID);
 
     public static final RegistryObject<Block> PELMENI_BLOCK = registerBlock("pelmeni_block",
-            () -> new Block(AbstractBlock.Properties.of(Material.SNOW).sound(SoundType.SNOW)
-                    .strength(1.5f).harvestLevel(0).harvestTool(ToolType.SHOVEL)));
+            () -> new Block(AbstractBlock.Properties.create(Material.SNOW).sound(SoundType.SNOW)
+                    .hardnessAndResistance(1.5f).harvestLevel(0).harvestTool(ToolType.SHOVEL)));
 
     public static final RegistryObject<Block> FRIED_PELMENI_BLOCK = registerBlock("fried_pelmeni_block",
-            () -> new Block(AbstractBlock.Properties.of(Material.SNOW).sound(SoundType.SNOW)
-                    .strength(1.5f).harvestLevel(0).harvestTool(ToolType.SHOVEL)));
+            () -> new Block(AbstractBlock.Properties.create(Material.SNOW).sound(SoundType.SNOW)
+                    .hardnessAndResistance(1.5f).harvestLevel(0).harvestTool(ToolType.SHOVEL)));
 
     public static final RegistryObject<Block> MEAT_GRINDER = registerBlock("meat_grinder",
-            () -> new MeatGrinderBlock(AbstractBlock.Properties.of(Material.METAL)
+            () -> new MeatGrinderBlock(AbstractBlock.Properties.create(Material.IRON)
                     .sound(SoundType.METAL)
                     .harvestTool(ToolType.PICKAXE)
                     .harvestLevel(0)
-                    .strength(3f)
-                    .requiresCorrectToolForDrops()
-                    .noOcclusion()));
+                    .hardnessAndResistance(3f)
+                    .setRequiresTool()
+                    .notSolid()));
 
     public static <T extends Block> RegistryObject<T> registerBlock(String name, Supplier<T> block) {
         RegistryObject<T> toReturn = BLOCKS.register(name, block);
@@ -48,7 +48,7 @@ public class ModBlocks {
 
     private static <T extends Block> void registerBlockItem(String name, RegistryObject<T> block) {
         ModItems.ITEMS.register(name, () -> new BlockItem(block.get(),
-                new Item.Properties().tab(ModItemGroup.PELMENICRAFT_GROUP)));
+                new Item.Properties().group(ModItemGroup.PELMENICRAFT_GROUP)));
     }
 
     public static void register(IEventBus eventBus) {
