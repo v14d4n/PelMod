@@ -103,7 +103,6 @@ public class ModItems {
                                     Effects.HUNGER, 600, 0), 0.3f)
                             .build())));
 
-
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);
     }

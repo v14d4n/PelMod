@@ -4,7 +4,10 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.IRecipeType;
 import net.minecraft.util.DamageSource;
+
+import javax.annotation.Nullable;
 
 public class RollingPin extends Item {
     public RollingPin(Properties properties) {
@@ -21,8 +24,16 @@ public class RollingPin extends Item {
     @Override
     public ItemStack getContainerItem(ItemStack itemStack) {
         ItemStack container = itemStack.copy();
-        if (container.attemptDamageItem(1, random, null)) { return ItemStack.EMPTY; }
-        else { return container; }
+        if (container.attemptDamageItem(1, random, null)) {
+            return ItemStack.EMPTY;
+        } else {
+            return container;
+        }
+    }
+
+    @Override
+    public int getBurnTime(ItemStack itemStack, @Nullable IRecipeType<?> recipeType) {
+        return 26;
     }
 
     @Override

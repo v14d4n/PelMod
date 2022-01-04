@@ -1,17 +1,24 @@
 package com.v14d4n.pelmenicraft.block.custom;
 
+import com.v14d4n.pelmenicraft.item.ModItems;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.HorizontalBlock;
-import net.minecraft.client.particle.DiggingParticle;
-import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleManager;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.item.ItemEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItemUseContext;
-import net.minecraft.item.Items;
+import net.minecraft.item.ItemStack;
 import net.minecraft.particles.BlockParticleData;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.state.StateContainer;
+import net.minecraft.util.ActionResultType;
+import net.minecraft.util.Hand;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.shapes.IBooleanFunction;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
@@ -195,8 +202,6 @@ public class MeatGrinderBlock extends HorizontalBlock {
             Block.makeCuboidShape(7.06264, 6.25, 12.43736, 9.06264, 8.25, 12.43736)
     ).reduce((v1, v2) -> VoxelShapes.combineAndSimplify(v1, v2, IBooleanFunction.OR)).get();
 
-
-
     @Override
     public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
         switch (state.get(HORIZONTAL_FACING)) {
@@ -209,6 +214,47 @@ public class MeatGrinderBlock extends HorizontalBlock {
             default:
                 return SHAPE_N;
         }
+    }
+
+    @Override
+    public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
+        if(!worldIn.isRemote()) {
+            worldIn.playSound(null, pos, SoundEvents.ITEM_ARMOR_EQUIP_CHAIN, SoundCategory.BLOCKS, 0.8f, 1);
+
+            if (RANDOM.nextDouble() > 0.2d) {
+                return ActionResultType.SUCCESS;
+            }
+
+            float xSpawnPos = pos.getX() + 0.5f; float ySpawnPos = pos.getY() + 0.2f; float zSpawnPos = pos.getZ() + 0.5f;
+            float spawnOffset = 0.45f;
+            float throwPower = 0.15f;
+            float zThrowPower = 0;
+            float xThrowPower = 0;
+
+            switch (state.get(HORIZONTAL_FACING)) {
+                case SOUTH:
+                    zSpawnPos += spawnOffset;
+                    zThrowPower += throwPower;
+                    break;
+                case WEST:
+                    xSpawnPos -= spawnOffset;
+                    xThrowPower -= throwPower;
+                    break;
+                case EAST:
+                    xSpawnPos += spawnOffset;
+                    xThrowPower += throwPower;
+                    break;
+                default:
+                    zSpawnPos -= spawnOffset;
+                    zThrowPower -= throwPower;
+                    break;
+            }
+
+            ItemEntity groundMeat = new ItemEntity(worldIn, xSpawnPos, ySpawnPos, zSpawnPos, new ItemStack(ModItems.GROUNDMEAT.get(), 1));
+            groundMeat.addVelocity(xThrowPower, -0.15f, zThrowPower);
+            worldIn.addEntity(groundMeat);
+        }
+        return ActionResultType.SUCCESS;
     }
 
     @Override
