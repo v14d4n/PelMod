@@ -1,0 +1,11 @@
+{
+  "type": "pelmenicraft:grinding",
+  "ingredients": [
+    {
+      "tag": "pelmenicraft:raw_meat"
+    }
+  ],
+  "output": {
+    "item": "pelmenicraft:groundmeat"
+  }
+}

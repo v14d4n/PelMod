@@ -231,23 +231,18 @@ public class MeatGrinderBlock extends HorizontalBlock {
     public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
         if(!worldIn.isRemote()) {
             TileEntity tileEntity = worldIn.getTileEntity(pos);
-
-            if (player.isCrouching()) {
-                if (tileEntity instanceof MeatGrinderTile) {
+            if (tileEntity instanceof MeatGrinderTile){
+                if (player.isCrouching()) {
                     INamedContainerProvider containerProvider = createContainerProvider(worldIn, pos);
                     NetworkHooks.openGui((ServerPlayerEntity) player, containerProvider, tileEntity.getPos());
                 } else {
-                    throw new IllegalStateException("something broke (container provider)");
-                }
-            } else {
-                // if player is not crouching
-                if (tileEntity instanceof MeatGrinderTile) {
-                    if (RANDOM.nextDouble() <= 0.2d && ((MeatGrinderTile) tileEntity).meatHasBeenGround()) {
+                    // if player is not crouching
+                    if (RANDOM.nextDouble() <= 0.25d && ((MeatGrinderTile) tileEntity).isItemInSlot()) {
                         float xSpawnPos = pos.getX() + 0.5f;
                         float ySpawnPos = pos.getY() + 0.2f;
                         float zSpawnPos = pos.getZ() + 0.5f;
                         float spawnOffset = 0.45f;
-                        float throwPower = 0.15f;
+                        float throwPower = 0.25f;
                         float zThrowPower = 0;
                         float xThrowPower = 0;
 
@@ -270,16 +265,25 @@ public class MeatGrinderBlock extends HorizontalBlock {
                                 break;
                         }
 
-                        ItemEntity groundMeat = new ItemEntity(worldIn, xSpawnPos, ySpawnPos, zSpawnPos,
-                                new ItemStack(ModItems.GROUNDMEAT.get(), 1));
-                        groundMeat.addVelocity(xThrowPower, -0.15f, zThrowPower);
-                        worldIn.addEntity(groundMeat);
-                        worldIn.playSound(null, pos, SoundEvents.ENTITY_PANDA_EAT, SoundCategory.BLOCKS, 0.8f, 1);
-                    } else {
-                        // if the 20 percent chance didn't work
-                        worldIn.playSound(null, pos, SoundEvents.ITEM_ARMOR_EQUIP_CHAIN, SoundCategory.BLOCKS, 0.6f, 1);
+                        ItemEntity item = new ItemEntity(worldIn, xSpawnPos, ySpawnPos, zSpawnPos,
+                                ((MeatGrinderTile) tileEntity).craftAndGetCraftedItem());
+                        item.addVelocity(xThrowPower, -0.15f, zThrowPower);
+                        worldIn.addEntity(item);
+
+                        worldIn.playSound(null, pos,
+                                SoundEvents.ENTITY_SHULKER_BULLET_HIT, SoundCategory.BLOCKS, 0.8f, 1);
+                    } else { // if random didn't work
+                        if (((MeatGrinderTile) tileEntity).isItemInSlot()) {
+                            worldIn.playSound(null, pos,
+                                    SoundEvents.ITEM_ARMOR_EQUIP_CHAIN, SoundCategory.BLOCKS, 0.8f, 1);
+                        } else {
+                            worldIn.playSound(null, pos,
+                                    SoundEvents.ITEM_TRIDENT_HIT_GROUND, SoundCategory.BLOCKS, 0.8f, 1);
+                        }
                     }
                 }
+            } else {
+                throw new RuntimeException("error with tile entity (meat_grinder)");
             }
         }
         return ActionResultType.SUCCESS;

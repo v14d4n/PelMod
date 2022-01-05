@@ -2,6 +2,7 @@ package com.v14d4n.pelmenicraft;
 
 import com.v14d4n.pelmenicraft.block.ModBlocks;
 import com.v14d4n.pelmenicraft.container.ModContainers;
+import com.v14d4n.pelmenicraft.data.recipes.ModRecipeTypes;
 import com.v14d4n.pelmenicraft.item.ModItems;
 import com.v14d4n.pelmenicraft.screen.MeatGrinderScreen;
 import com.v14d4n.pelmenicraft.tileentity.ModTileEntities;
@@ -41,6 +42,7 @@ public class PelmeniCraft {
         ModBlocks.register(eventBus);
         ModTileEntities.register(eventBus);
         ModContainers.register(eventBus);
+        ModRecipeTypes.register(eventBus);
 
         eventBus.addListener(this::setup);
         // Register the enqueueIMC method for modloading
