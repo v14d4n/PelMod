@@ -6,6 +6,7 @@ import com.v14d4n.pelmenicraft.item.ModItemGroup;
 import com.v14d4n.pelmenicraft.item.ModItems;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
+import net.minecraft.block.Blocks;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.item.BlockItem;
@@ -24,11 +25,11 @@ public class ModBlocks {
             DeferredRegister.create(ForgeRegistries.BLOCKS, PelmeniCraft.MOD_ID);
 
     public static final RegistryObject<Block> PELMENI_BLOCK = registerBlock("pelmeni_block",
-            () -> new Block(AbstractBlock.Properties.create(Material.SNOW_BLOCK).sound(SoundType.SNOW)
+            () -> new Block(AbstractBlock.Properties.from(Blocks.SNOW_BLOCK).sound(SoundType.SNOW)
                     .hardnessAndResistance(1.5f).harvestLevel(0).harvestTool(ToolType.SHOVEL)));
 
     public static final RegistryObject<Block> FRIED_PELMENI_BLOCK = registerBlock("fried_pelmeni_block",
-            () -> new Block(AbstractBlock.Properties.create(Material.SNOW_BLOCK).sound(SoundType.SNOW)
+            () -> new Block(AbstractBlock.Properties.from(Blocks.SNOW_BLOCK).sound(SoundType.SNOW)
                     .hardnessAndResistance(1.5f).harvestLevel(0).harvestTool(ToolType.SHOVEL)));
 
     public static final RegistryObject<Block> MEAT_GRINDER = registerBlock("meat_grinder",

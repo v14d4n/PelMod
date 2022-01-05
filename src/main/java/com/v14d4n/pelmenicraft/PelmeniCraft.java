@@ -1,11 +1,16 @@
 package com.v14d4n.pelmenicraft;
 
 import com.v14d4n.pelmenicraft.block.ModBlocks;
+import com.v14d4n.pelmenicraft.container.ModContainers;
 import com.v14d4n.pelmenicraft.item.ModItems;
+import com.v14d4n.pelmenicraft.screen.MeatGrinderScreen;
+import com.v14d4n.pelmenicraft.tileentity.ModTileEntities;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
+import net.minecraft.client.gui.ScreenManager;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.RenderTypeLookup;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -34,6 +39,8 @@ public class PelmeniCraft {
 
         ModItems.register(eventBus);
         ModBlocks.register(eventBus);
+        ModTileEntities.register(eventBus);
+        ModContainers.register(eventBus);
 
         eventBus.addListener(this::setup);
         // Register the enqueueIMC method for modloading
@@ -56,6 +63,8 @@ public class PelmeniCraft {
     private void doClientStuff(final FMLClientSetupEvent event) {
         event.enqueueWork(() -> {
             RenderTypeLookup.setRenderLayer(ModBlocks.MEAT_GRINDER.get(), RenderType.getCutout());
+
+            ScreenManager.registerFactory(ModContainers.MEAT_GRINDER_CONTAINER.get(), MeatGrinderScreen::new);
         });
     }
 

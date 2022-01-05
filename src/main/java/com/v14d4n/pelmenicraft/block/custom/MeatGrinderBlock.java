@@ -1,6 +1,9 @@
 package com.v14d4n.pelmenicraft.block.custom;
 
+import com.v14d4n.pelmenicraft.container.MeatGrinderContainer;
 import com.v14d4n.pelmenicraft.item.ModItems;
+import com.v14d4n.pelmenicraft.tileentity.MeatGrinderTile;
+import com.v14d4n.pelmenicraft.tileentity.ModTileEntities;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.HorizontalBlock;
@@ -8,11 +11,16 @@ import net.minecraft.client.particle.ParticleManager;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.inventory.container.Container;
+import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.particles.BlockParticleData;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.state.StateContainer;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.SoundCategory;
@@ -23,8 +31,11 @@ import net.minecraft.util.math.shapes.IBooleanFunction;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.network.NetworkHooks;
 
 import javax.annotation.Nullable;
 import java.util.stream.Stream;
@@ -219,42 +230,74 @@ public class MeatGrinderBlock extends HorizontalBlock {
     @Override
     public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
         if(!worldIn.isRemote()) {
-            worldIn.playSound(null, pos, SoundEvents.ITEM_ARMOR_EQUIP_CHAIN, SoundCategory.BLOCKS, 0.8f, 1);
+            TileEntity tileEntity = worldIn.getTileEntity(pos);
 
-            if (RANDOM.nextDouble() > 0.2d) {
-                return ActionResultType.SUCCESS;
+            if (player.isCrouching()) {
+                if (tileEntity instanceof MeatGrinderTile) {
+                    INamedContainerProvider containerProvider = createContainerProvider(worldIn, pos);
+                    NetworkHooks.openGui((ServerPlayerEntity) player, containerProvider, tileEntity.getPos());
+                } else {
+                    throw new IllegalStateException("something broke (container provider)");
+                }
+            } else {
+                // if player is not crouching
+                if (tileEntity instanceof MeatGrinderTile) {
+                    if (RANDOM.nextDouble() <= 0.2d && ((MeatGrinderTile) tileEntity).meatHasBeenGround()) {
+                        float xSpawnPos = pos.getX() + 0.5f;
+                        float ySpawnPos = pos.getY() + 0.2f;
+                        float zSpawnPos = pos.getZ() + 0.5f;
+                        float spawnOffset = 0.45f;
+                        float throwPower = 0.15f;
+                        float zThrowPower = 0;
+                        float xThrowPower = 0;
+
+                        switch (state.get(HORIZONTAL_FACING)) {
+                            case SOUTH:
+                                zSpawnPos += spawnOffset;
+                                zThrowPower += throwPower;
+                                break;
+                            case WEST:
+                                xSpawnPos -= spawnOffset;
+                                xThrowPower -= throwPower;
+                                break;
+                            case EAST:
+                                xSpawnPos += spawnOffset;
+                                xThrowPower += throwPower;
+                                break;
+                            default:
+                                zSpawnPos -= spawnOffset;
+                                zThrowPower -= throwPower;
+                                break;
+                        }
+
+                        ItemEntity groundMeat = new ItemEntity(worldIn, xSpawnPos, ySpawnPos, zSpawnPos,
+                                new ItemStack(ModItems.GROUNDMEAT.get(), 1));
+                        groundMeat.addVelocity(xThrowPower, -0.15f, zThrowPower);
+                        worldIn.addEntity(groundMeat);
+                        worldIn.playSound(null, pos, SoundEvents.ENTITY_PANDA_EAT, SoundCategory.BLOCKS, 0.8f, 1);
+                    } else {
+                        // if the 20 percent chance didn't work
+                        worldIn.playSound(null, pos, SoundEvents.ITEM_ARMOR_EQUIP_CHAIN, SoundCategory.BLOCKS, 0.6f, 1);
+                    }
+                }
             }
-
-            float xSpawnPos = pos.getX() + 0.5f; float ySpawnPos = pos.getY() + 0.2f; float zSpawnPos = pos.getZ() + 0.5f;
-            float spawnOffset = 0.45f;
-            float throwPower = 0.15f;
-            float zThrowPower = 0;
-            float xThrowPower = 0;
-
-            switch (state.get(HORIZONTAL_FACING)) {
-                case SOUTH:
-                    zSpawnPos += spawnOffset;
-                    zThrowPower += throwPower;
-                    break;
-                case WEST:
-                    xSpawnPos -= spawnOffset;
-                    xThrowPower -= throwPower;
-                    break;
-                case EAST:
-                    xSpawnPos += spawnOffset;
-                    xThrowPower += throwPower;
-                    break;
-                default:
-                    zSpawnPos -= spawnOffset;
-                    zThrowPower -= throwPower;
-                    break;
-            }
-
-            ItemEntity groundMeat = new ItemEntity(worldIn, xSpawnPos, ySpawnPos, zSpawnPos, new ItemStack(ModItems.GROUNDMEAT.get(), 1));
-            groundMeat.addVelocity(xThrowPower, -0.15f, zThrowPower);
-            worldIn.addEntity(groundMeat);
         }
         return ActionResultType.SUCCESS;
+    }
+
+    private INamedContainerProvider createContainerProvider(World worldIn, BlockPos pos) {
+        return new INamedContainerProvider() {
+            @Override
+            public ITextComponent getDisplayName() {
+                return new TranslationTextComponent("screen.pelmenicraft.meat_grinder");
+            }
+
+            @Nullable
+            @Override
+            public Container createMenu(int i, PlayerInventory playerInventory, PlayerEntity player) {
+                return new MeatGrinderContainer(i, worldIn, pos, playerInventory, player);
+            }
+        };
     }
 
     @Override
@@ -278,5 +321,16 @@ public class MeatGrinderBlock extends HorizontalBlock {
     @Override
     public BlockState getStateForPlacement(BlockItemUseContext context) {
         return this.getDefaultState().with(HORIZONTAL_FACING, context.getPlacementHorizontalFacing().getOpposite());
+    }
+
+    @Nullable
+    @Override
+    public TileEntity createTileEntity(BlockState state, IBlockReader world) {
+        return ModTileEntities.MEAT_GRINDER_TILE.get().create();
+    }
+
+    @Override
+    public boolean hasTileEntity(BlockState state) {
+        return true;
     }
 }
