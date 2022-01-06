@@ -97,7 +97,7 @@ public class MeatGrinderTile extends TileEntity {
         return this.itemHandler.getStackInSlot(0).getCount() > 0;
     }
 
-    public boolean compareItemInSlot(ItemStack itemIn) {
+    private boolean compareItemInSlot(ItemStack itemIn) {
         return itemIn.getItem() == itemHandler.getStackInSlot(0).getItem();
     }
 
@@ -105,7 +105,6 @@ public class MeatGrinderTile extends TileEntity {
         if ((compareItemInSlot(itemStack)) && this.itemHandler.getStackInSlot(0).getCount() < itemHandler.getStackInSlot(0).getMaxStackSize()
                 || (isItemValid(itemStack) && compareItemInSlot(ItemStack.EMPTY))) {
             this.itemHandler.insertItem(0, itemStack, false);
-            markDirty();
             return true;
         }
         return false;
@@ -122,7 +121,6 @@ public class MeatGrinderTile extends TileEntity {
 
             if (recipe.isPresent()) {
                 itemHandler.extractItem(0, 1, false);
-                markDirty();
                 return recipe.get().getRecipeOutput();
             }
         }

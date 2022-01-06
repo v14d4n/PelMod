@@ -1,0 +1,7 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "pelmenicraft:item/fried_pelmeni_bowl",
+    "layer1": "pelmenicraft:item/white_sauce_gray"
+  }
+}

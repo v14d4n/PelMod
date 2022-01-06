@@ -36,7 +36,6 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
-import net.minecraftforge.common.extensions.IForgeBlockState;
 import net.minecraftforge.fml.network.NetworkHooks;
 
 import javax.annotation.Nullable;
@@ -241,8 +240,6 @@ public class MeatGrinderBlock extends HorizontalBlock {
         }
         super.onEntityCollision(state, worldIn, pos, entityIn);
     }
-
-
 
     @Override
     public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {

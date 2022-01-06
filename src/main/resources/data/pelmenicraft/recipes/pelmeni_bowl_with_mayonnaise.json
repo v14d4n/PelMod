@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "pelmenicraft:mayonnaise"
+    },
+    {
+      "item": "pelmenicraft:pelmeni_bowl"
+    }
+  ],
+  "result": {
+    "item": "pelmenicraft:pelmeni_bowl_with_mayonnaise"
+  }
+}
