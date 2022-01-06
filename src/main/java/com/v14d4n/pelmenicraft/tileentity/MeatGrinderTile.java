@@ -3,7 +3,9 @@ package com.v14d4n.pelmenicraft.tileentity;
 import com.v14d4n.pelmenicraft.data.recipes.MeatGrinderRecipe;
 import com.v14d4n.pelmenicraft.data.recipes.ModRecipeTypes;
 import net.minecraft.block.BlockState;
+import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.inventory.Inventory;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.nbt.CompoundNBT;
@@ -85,8 +87,28 @@ public class MeatGrinderTile extends TileEntity {
         return super.getCapability(cap, side);
     }
 
+    public boolean isItemValid(ItemStack itemStack) {
+        return world.getRecipeManager().getRecipesForType(ModRecipeTypes.GRINDING_RECIPE).stream()
+                .flatMap(ing -> ing.getIngredients().stream())
+                .anyMatch(ing -> ing.test(itemStack));
+    }
+
     public boolean isItemInSlot() {
         return this.itemHandler.getStackInSlot(0).getCount() > 0;
+    }
+
+    public boolean compareItemInSlot(ItemStack itemIn) {
+        return itemIn.getItem() == itemHandler.getStackInSlot(0).getItem();
+    }
+
+    public boolean addItemToSlot(ItemStack itemStack) {
+        if ((compareItemInSlot(itemStack)) && this.itemHandler.getStackInSlot(0).getCount() < itemHandler.getStackInSlot(0).getMaxStackSize()
+                || (isItemValid(itemStack) && compareItemInSlot(ItemStack.EMPTY))) {
+            this.itemHandler.insertItem(0, itemStack, false);
+            markDirty();
+            return true;
+        }
+        return false;
     }
 
     public ItemStack craftAndGetCraftedItem() {

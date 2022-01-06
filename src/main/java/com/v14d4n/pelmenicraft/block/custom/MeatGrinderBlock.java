@@ -8,6 +8,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.HorizontalBlock;
 import net.minecraft.client.particle.ParticleManager;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -35,6 +36,7 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
+import net.minecraftforge.common.extensions.IForgeBlockState;
 import net.minecraftforge.fml.network.NetworkHooks;
 
 import javax.annotation.Nullable;
@@ -226,6 +228,21 @@ public class MeatGrinderBlock extends HorizontalBlock {
                 return SHAPE_N;
         }
     }
+
+    @Override
+    public void onEntityCollision(BlockState state, World worldIn, BlockPos pos, Entity entityIn) {
+        if (!worldIn.isRemote) {
+            TileEntity tileEntity = worldIn.getTileEntity(pos);
+            if (entityIn instanceof ItemEntity && tileEntity instanceof MeatGrinderTile) {
+                ItemStack itemStack = ((ItemEntity) entityIn).getItem();
+                if (((MeatGrinderTile) tileEntity).addItemToSlot(itemStack))
+                    entityIn.remove();
+            }
+        }
+        super.onEntityCollision(state, worldIn, pos, entityIn);
+    }
+
+
 
     @Override
     public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
