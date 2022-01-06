@@ -237,7 +237,7 @@ public class MeatGrinderBlock extends HorizontalBlock {
                     NetworkHooks.openGui((ServerPlayerEntity) player, containerProvider, tileEntity.getPos());
                 } else {
                     // if player is not crouching
-                    if (RANDOM.nextDouble() <= 0.25d && ((MeatGrinderTile) tileEntity).isItemInSlot()) {
+                    if (RANDOM.nextDouble() <= 0.4d && ((MeatGrinderTile) tileEntity).isItemInSlot()) {
                         float xSpawnPos = pos.getX() + 0.5f;
                         float ySpawnPos = pos.getY() + 0.2f;
                         float zSpawnPos = pos.getZ() + 0.5f;

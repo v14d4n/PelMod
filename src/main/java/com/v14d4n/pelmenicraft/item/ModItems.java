@@ -2,11 +2,10 @@ package com.v14d4n.pelmenicraft.item;
 
 import com.v14d4n.pelmenicraft.PelmeniCraft;
 import com.v14d4n.pelmenicraft.item.custom.Cumpot;
+import com.v14d4n.pelmenicraft.item.custom.PelmeniBowlItem;
 import com.v14d4n.pelmenicraft.item.custom.RollingPin;
-import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.item.Food;
 import net.minecraft.item.Item;
-import net.minecraft.item.SoupItem;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -23,13 +22,13 @@ public class ModItems {
                     .defaultMaxDamage(8)));
 
     public static final RegistryObject<Item> CUMPOT = ITEMS.register("cumpot",
-            () -> new Cumpot(new Item.Properties().group(ModItemGroup.PELMENICRAFT_GROUP)
-                    .maxStackSize(1)
-                    .food(new Food.Builder()
-                            .setAlwaysEdible()
-                            .effect(() -> new EffectInstance(
-                                    Effects.STRENGTH, 100, 1), 1f)
-                            .build())));
+            () -> new Cumpot(new Food.Builder()
+                    .setAlwaysEdible()
+                    .hunger(3)
+                    .saturation(0.6f)
+                    .effect(() -> new EffectInstance(
+                            Effects.STRENGTH, 200, 0), 1f)
+                    .build()));
 
     public static final RegistryObject<Item> PELMEN = ITEMS.register("pelmen",
             () -> new Item(new Item.Properties().group(ModItemGroup.PELMENICRAFT_GROUP)
@@ -60,24 +59,20 @@ public class ModItems {
                             .build())));
 
     public static final RegistryObject<Item> PELMENI_BOWL = ITEMS.register("pelmeni_bowl",
-            () -> new SoupItem(new Item.Properties().group(ModItemGroup.PELMENICRAFT_GROUP)
-                    .maxStackSize(1)
-                    .food(new Food.Builder()
-                            .hunger(14)
-                            .saturation(2f)
-                            .effect(() -> new EffectInstance(Effects.REGENERATION, 100, 0), 1f)
-                            .effect(() -> new EffectInstance(Effects.HASTE, 600, 0), 1f)
-                            .build())));
+            () -> new PelmeniBowlItem(new Food.Builder()
+                    .hunger(9)
+                    .saturation(2.1f)
+                    .effect(() -> new EffectInstance(Effects.REGENERATION, 100, 0), 1f)
+                    .effect(() -> new EffectInstance(Effects.HASTE, 600, 0), 1f)
+                    .build()));
 
     public static final RegistryObject<Item> FRIED_PELMENI_BOWL = ITEMS.register("fried_pelmeni_bowl",
-            () -> new SoupItem(new Item.Properties().group(ModItemGroup.PELMENICRAFT_GROUP)
-                    .maxStackSize(1)
-                    .food(new Food.Builder()
-                            .hunger(16)
-                            .saturation(2.6f)
-                            .effect(() -> new EffectInstance(Effects.REGENERATION, 150, 0), 1f)
-                            .effect(() -> new EffectInstance(Effects.STRENGTH, 600, 0), 1f)
-                            .build())));
+            () -> new PelmeniBowlItem(new Food.Builder()
+                    .hunger(12)
+                    .saturation(2.4f)
+                    .effect(() -> new EffectInstance(Effects.REGENERATION, 100, 0), 1f)
+                    .effect(() -> new EffectInstance(Effects.STRENGTH, 600, 0), 1f)
+                    .build()));
 
     public static final RegistryObject<Item> DOUGH = ITEMS.register("dough",
             () -> new Item(new Item.Properties().group(ModItemGroup.PELMENICRAFT_GROUP)
