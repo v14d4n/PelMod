@@ -31,10 +31,10 @@ logoFile = "pelmenicraft.png" #optional
 # A text field displayed in the mod UI
 #credits = "" #optional
 # A text field displayed in the mod UI
-authors = "v14d4n, Beppe" #optional
+authors = "v14d4n" #optional
 # The description text for the mod (multi line!) (#mandatory)
 description = '''
-    Eat pelmens! Eat da flop!
+    Eat pelmeni! Eat da flop!
 '''
 # A dependency - use the . to indicate dependency for a specific modid. Dependencies are optional.
 [[dependencies.pelmenicraft]] #optional
