@@ -1,0 +1,25 @@
+{
+  "item.pelmenicraft.pelmen": "Пельмень",
+  "item.pelmenicraft.mayonnaise": "Майонез",
+  "item.pelmenicraft.smetana": "Сметана",
+  "item.pelmenicraft.groundmeat": "Фарш",
+  "item.pelmenicraft.dough": "Тесто",
+  "item.pelmenicraft.rolled_dough": "Раскатанное Тесто",
+  "item.pelmenicraft.pelmeni_bowl": "Тарелка Пельменей",
+  "item.pelmenicraft.fried_pelmen": "Жареный Пельмень",
+  "item.pelmenicraft.fried_pelmeni_bowl": "Тарелка Жареных Пельменей",
+  "item.pelmenicraft.rolling_pin": "Скалка",
+  "item.pelmenicraft.cumpot": "Компот",
+  "item.pelmenicraft.pelmeni_bowl_with_mayonnaise": "Пельмени с Майонезом",
+  "item.pelmenicraft.pelmeni_bowl_with_smetana": "Пельмени со Сметаной",
+  "item.pelmenicraft.fried_pelmeni_bowl_with_mayonnaise": "Жареные Пельмени с Майонезом",
+  "item.pelmenicraft.fried_pelmeni_bowl_with_smetana": "Жареные Пельмени со Сметаной",
+
+  "block.pelmenicraft.pelmeni_block": "Блок Пельменей",
+  "block.pelmenicraft.fried_pelmeni_block": "Блок Жареных Пельменей",
+  "block.pelmenicraft.meat_grinder": "Мясорубка",
+
+  "screen.pelmenicraft.meat_grinder": "Мясорубка",
+
+  "itemGroup.pelmeniCraftTab": "Pelmeni Craft"
+}
