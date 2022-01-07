@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "pelmenicraft:smetana"
+    },
+    {
+      "type": "forge:nbt",
+      "item": "pelmenicraft:pelmeni_bowl",
+      "nbt": { "Damaged" : null }
+    }
+  ],
+  "result": {
+    "item": "pelmenicraft:pelmeni_bowl_with_smetana"
+  }
+}

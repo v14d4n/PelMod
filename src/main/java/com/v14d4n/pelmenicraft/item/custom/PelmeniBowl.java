@@ -7,14 +7,14 @@ import net.minecraft.item.*;
 import net.minecraft.nbt.*;
 import net.minecraft.world.World;
 
-public class PelmeniBowlItem extends Item {
-    public PelmeniBowlItem(int maxUses, Food foodBuilder) {
+public class PelmeniBowl extends Item {
+    public PelmeniBowl(int maxUses, Food foodBuilder) {
         super(new Item.Properties()
                 .group(ModItemGroup.PELMENICRAFT_GROUP).setNoRepair()
                 .maxStackSize(1).maxDamage(maxUses).food(foodBuilder));
     }
 
-    public PelmeniBowlItem(Food foodBuilder) {
+    public PelmeniBowl(Food foodBuilder) {
         this(2, foodBuilder);
     }
 
@@ -33,11 +33,12 @@ public class PelmeniBowlItem extends Item {
         ItemStack container = stack.copy();
         ItemStack itemStack = super.onItemUseFinish(stack, worldIn, entityLiving);
 
-        if (container.attemptDamageItem(1, random, null)) {
-            return entityLiving instanceof PlayerEntity && ((PlayerEntity)entityLiving).abilities.isCreativeMode ? itemStack : new ItemStack(Items.BOWL);
-        } else {
-            itemStack.getOrCreateTag().put("Damaged", StringNBT.valueOf("true"));
-            return entityLiving instanceof PlayerEntity && ((PlayerEntity)entityLiving).abilities.isCreativeMode ? itemStack : container;
+        if (entityLiving instanceof PlayerEntity && ((PlayerEntity)entityLiving).abilities.isCreativeMode) {
+            return itemStack;
+        } else if (!container.attemptDamageItem(1, random, null)) {
+            container.getOrCreateTag().put("Damaged", StringNBT.valueOf("true"));
+            return container;
         }
+        return new ItemStack(Items.BOWL);
     }
 }
