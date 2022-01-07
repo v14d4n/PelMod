@@ -1,7 +1,6 @@
 package com.v14d4n.pelmenicraft.block.custom;
 
 import com.v14d4n.pelmenicraft.container.MeatGrinderContainer;
-import com.v14d4n.pelmenicraft.item.ModItems;
 import com.v14d4n.pelmenicraft.tileentity.MeatGrinderTile;
 import com.v14d4n.pelmenicraft.tileentity.ModTileEntities;
 import net.minecraft.block.Block;
@@ -9,7 +8,6 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.HorizontalBlock;
 import net.minecraft.client.particle.ParticleManager;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;

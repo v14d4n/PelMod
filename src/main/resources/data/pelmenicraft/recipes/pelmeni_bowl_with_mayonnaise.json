@@ -5,7 +5,9 @@
       "item": "pelmenicraft:mayonnaise"
     },
     {
-      "item": "pelmenicraft:pelmeni_bowl"
+      "type": "forge:nbt",
+      "item": "pelmenicraft:pelmeni_bowl",
+      "nbt": { "Damaged" : null }
     }
   ],
   "result": {
