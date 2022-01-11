@@ -232,8 +232,10 @@ public class MeatGrinderBlock extends HorizontalBlock {
             TileEntity tileEntity = worldIn.getTileEntity(pos);
             if (entityIn instanceof ItemEntity && tileEntity instanceof MeatGrinderTile) {
                 ItemStack itemStack = ((ItemEntity) entityIn).getItem();
-                if (((MeatGrinderTile) tileEntity).addItemToSlot(itemStack))
-                    entityIn.remove();
+                if (!((MeatGrinderTile) tileEntity).isItemHandlerFull()) {
+                    int outCount = ((MeatGrinderTile) tileEntity).addItemToSlot(itemStack);
+                    ((ItemEntity) entityIn).getItem().setCount(outCount);
+                }
             }
         }
         super.onEntityCollision(state, worldIn, pos, entityIn);

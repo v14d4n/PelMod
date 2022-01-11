@@ -1,13 +1,9 @@
 package com.v14d4n.pelmenicraft.tileentity;
 
-import com.v14d4n.pelmenicraft.data.recipes.MeatGrinderRecipe;
-import com.v14d4n.pelmenicraft.data.recipes.ModRecipeTypes;
+import com.v14d4n.pelmenicraft.item.ModItems;
 import net.minecraft.block.BlockState;
-import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.inventory.Inventory;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
@@ -21,11 +17,6 @@ import net.minecraftforge.items.ItemStackHandler;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Optional;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 public class MeatGrinderTile extends TileEntity {
 
@@ -61,9 +52,11 @@ public class MeatGrinderTile extends TileEntity {
 
             @Override
             public boolean isItemValid(int slot, @Nonnull ItemStack stack) {
-                return world.getRecipeManager().getRecipesForType(ModRecipeTypes.GRINDING_RECIPE).stream()
-                        .flatMap(ing -> ing.getIngredients().stream())
-                        .anyMatch(ing -> ing.test(stack));
+                return stack.getItem().getTags().stream().map(ResourceLocation::toString).anyMatch(tag -> tag.equals("pelmenicraft:raw_meat"));
+
+//                return world.getRecipeManager().getRecipesForType(ModRecipeTypes.GRINDING_RECIPE).stream()
+//                        .flatMap(ing -> ing.getIngredients().stream())
+//                        .anyMatch(ing -> ing.test(stack));
             }
 
             @Nonnull
@@ -88,9 +81,11 @@ public class MeatGrinderTile extends TileEntity {
     }
 
     public boolean isItemValid(ItemStack itemStack) {
-        return world.getRecipeManager().getRecipesForType(ModRecipeTypes.GRINDING_RECIPE).stream()
-                .flatMap(ing -> ing.getIngredients().stream())
-                .anyMatch(ing -> ing.test(itemStack));
+        return itemStack.getItem().getTags().stream().map(ResourceLocation::toString).anyMatch(tag -> tag.equals("pelmenicraft:raw_meat"));
+
+//        return world.getRecipeManager().getRecipesForType(ModRecipeTypes.GRINDING_RECIPE).stream()
+//                .flatMap(ing -> ing.getIngredients().stream())
+//                .anyMatch(ing -> ing.test(itemStack));
     }
 
     public boolean isItemInSlot() {
@@ -101,13 +96,19 @@ public class MeatGrinderTile extends TileEntity {
         return itemIn.getItem() == itemHandler.getStackInSlot(0).getItem();
     }
 
-    public boolean addItemToSlot(ItemStack itemStack) {
-        if ((compareItemInSlot(itemStack)) && this.itemHandler.getStackInSlot(0).getCount() < itemHandler.getStackInSlot(0).getMaxStackSize()
-                || (isItemValid(itemStack) && compareItemInSlot(ItemStack.EMPTY))) {
-            this.itemHandler.insertItem(0, itemStack, false);
-            return true;
+    public boolean isItemHandlerFull() {
+        return itemHandler.getStackInSlot(0).getCount() >= itemHandler.getStackInSlot(0).getMaxStackSize();
+    }
+
+    public int addItemToSlot(ItemStack itemStack) {
+        if (((compareItemInSlot(itemStack)) && !isItemHandlerFull()) || (isItemValid(itemStack) && compareItemInSlot(ItemStack.EMPTY))) {
+            int mgCapacity = itemHandler.getStackInSlot(0).getMaxStackSize() - itemHandler.getStackInSlot(0).getCount();
+
+            itemHandler.insertItem(0, itemStack.copy(), false);
+
+            return Math.max(itemStack.getCount() - mgCapacity, 0);
         }
-        return false;
+        return itemStack.getCount();
     }
 
     public ItemStack craftAndGetCraftedItem() {
@@ -117,12 +118,15 @@ public class MeatGrinderTile extends TileEntity {
                 inv.setInventorySlotContents(i, itemHandler.getStackInSlot(i));
             }
 
-            Optional<MeatGrinderRecipe> recipe = world.getRecipeManager().getRecipe(ModRecipeTypes.GRINDING_RECIPE, inv, world);
+            itemHandler.extractItem(0, 1, false);
+            return new ItemStack(ModItems.GROUNDMEAT.get());
 
-            if (recipe.isPresent()) {
-                itemHandler.extractItem(0, 1, false);
-                return recipe.get().getRecipeOutput();
-            }
+//            Optional<MeatGrinderRecipe> recipe = world.getRecipeManager().getRecipe(ModRecipeTypes.GRINDING_RECIPE, inv, world);
+//
+//            if (recipe.isPresent()) {
+//                itemHandler.extractItem(0, 1, false);
+//                return recipe.get().getRecipeOutput();
+//            }
         }
         return ItemStack.EMPTY;
     }

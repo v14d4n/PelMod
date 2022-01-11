@@ -1,11 +1,3 @@
 {
-  "type": "pelmenicraft:grinding",
-  "ingredients": [
-    {
-      "tag": "pelmenicraft:raw_meat"
-    }
-  ],
-  "output": {
-    "item": "pelmenicraft:groundmeat"
-  }
+  "__comment": "custom serializer is not working in local multiplayer for some reason"
 }
