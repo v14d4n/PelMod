@@ -344,6 +344,15 @@ public class MeatGrinderBlock extends HorizontalBlock {
     }
 
     @Override
+    public void onPlayerDestroy(IWorld worldIn, BlockPos pos, BlockState state) {
+        TileEntity tileEntity = worldIn.getTileEntity(pos);
+        if (tileEntity instanceof MeatGrinderTile) {
+            spawnAsEntity((World)worldIn, pos, ((MeatGrinderTile) tileEntity).getStackInSlot());
+        }
+        super.onPlayerDestroy(worldIn, pos, state);
+    }
+
+    @Override
     protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
         builder.add(HORIZONTAL_FACING);
     }
