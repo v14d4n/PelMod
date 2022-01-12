@@ -1,6 +1,7 @@
 package com.v14d4n.pelmenicraft.tileentity;
 
-import com.v14d4n.pelmenicraft.item.ModItems;
+import com.v14d4n.pelmenicraft.data.recipes.MeatGrinderRecipe;
+import com.v14d4n.pelmenicraft.data.recipes.ModRecipeTypes;
 import net.minecraft.block.BlockState;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
@@ -8,8 +9,6 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.Direction;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.datafix.fixes.ItemSpawnEggSplit;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.CapabilityItemHandler;
@@ -18,6 +17,7 @@ import net.minecraftforge.items.ItemStackHandler;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.Optional;
 
 public class MeatGrinderTile extends TileEntity {
 
@@ -53,11 +53,10 @@ public class MeatGrinderTile extends TileEntity {
 
             @Override
             public boolean isItemValid(int slot, @Nonnull ItemStack stack) {
-                return stack.getItem().getTags().stream().map(ResourceLocation::toString).anyMatch(tag -> tag.equals("pelmenicraft:raw_meat"));
 
-//                return world.getRecipeManager().getRecipesForType(ModRecipeTypes.GRINDING_RECIPE).stream()
-//                        .flatMap(ing -> ing.getIngredients().stream())
-//                        .anyMatch(ing -> ing.test(stack));
+                return world.getRecipeManager().getRecipesForType(ModRecipeTypes.GRINDING_RECIPE).stream()
+                        .flatMap(ing -> ing.getIngredients().stream())
+                        .anyMatch(ing -> ing.test(stack));
             }
 
             @Nonnull
@@ -82,11 +81,9 @@ public class MeatGrinderTile extends TileEntity {
     }
 
     public boolean isItemValid(ItemStack itemStack) {
-        return itemStack.getItem().getTags().stream().map(ResourceLocation::toString).anyMatch(tag -> tag.equals("pelmenicraft:raw_meat"));
-
-//        return world.getRecipeManager().getRecipesForType(ModRecipeTypes.GRINDING_RECIPE).stream()
-//                .flatMap(ing -> ing.getIngredients().stream())
-//                .anyMatch(ing -> ing.test(itemStack));
+        return world.getRecipeManager().getRecipesForType(ModRecipeTypes.GRINDING_RECIPE).stream()
+                .flatMap(ing -> ing.getIngredients().stream())
+                .anyMatch(ing -> ing.test(itemStack));
     }
 
     public boolean isItemInSlot() {
@@ -123,15 +120,12 @@ public class MeatGrinderTile extends TileEntity {
                 inv.setInventorySlotContents(i, itemHandler.getStackInSlot(i));
             }
 
-            itemHandler.extractItem(0, 1, false);
-            return new ItemStack(ModItems.GROUNDMEAT.get());
+            Optional<MeatGrinderRecipe> recipe = world.getRecipeManager().getRecipe(ModRecipeTypes.GRINDING_RECIPE, inv, world);
 
-//            Optional<MeatGrinderRecipe> recipe = world.getRecipeManager().getRecipe(ModRecipeTypes.GRINDING_RECIPE, inv, world);
-//
-//            if (recipe.isPresent()) {
-//                itemHandler.extractItem(0, 1, false);
-//                return recipe.get().getRecipeOutput();
-//            }
+            if (recipe.isPresent()) {
+                itemHandler.extractItem(0, 1, false);
+                return recipe.get().getRecipeOutput();
+            }
         }
         return ItemStack.EMPTY;
     }
