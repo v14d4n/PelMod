@@ -8,6 +8,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.HorizontalBlock;
 import net.minecraft.client.particle.ParticleManager;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -16,6 +17,7 @@ import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemStack;
+import net.minecraft.loot.LootContext;
 import net.minecraft.particles.BlockParticleData;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.state.StateContainer;
@@ -33,10 +35,12 @@ import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.IBlockReader;
+import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.network.NetworkHooks;
 
 import javax.annotation.Nullable;
+import java.util.List;
 import java.util.stream.Stream;
 
 public class MeatGrinderBlock extends HorizontalBlock {
@@ -322,12 +326,21 @@ public class MeatGrinderBlock extends HorizontalBlock {
     public boolean addDestroyEffects(BlockState state, World world, BlockPos pos, ParticleManager manager) {
         for (int i = 0; i < 10; i++) {
             manager.addParticle(new BlockParticleData(ParticleTypes.BLOCK, state),
-                    pos.getX() + 0.5d,
-                    pos.getY() + 0.6d - RANDOM.nextDouble() / 2d,
-                    pos.getZ() + 0.5d,
+                    pos.getX() + 0.5f,
+                    pos.getY() + 0.6f - RANDOM.nextDouble() / 2f,
+                    pos.getZ() + 0.5f,
                     0.00d, 0.05d, 0.00d);
         }
         return true;
+    }
+
+    @Override
+    public void onReplaced(BlockState state, World worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
+        TileEntity tileEntity = worldIn.getTileEntity(pos);
+        if (tileEntity instanceof MeatGrinderTile) {
+            spawnAsEntity(worldIn, pos, ((MeatGrinderTile) tileEntity).getStackInSlot());
+        }
+        super.onReplaced(state, worldIn, pos, newState, isMoving);
     }
 
     @Override

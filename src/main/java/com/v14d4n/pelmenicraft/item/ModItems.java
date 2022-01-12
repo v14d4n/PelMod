@@ -71,7 +71,7 @@ public class ModItems {
                     .hunger(9)
                     .saturation(2.1f)
                     .effect(() -> new EffectInstance(Effects.REGENERATION, 100, 0), 1f)
-                    .effect(() -> new EffectInstance(Effects.HASTE, 600, 0), 1f)
+                    .effect(() -> new EffectInstance(Effects.HASTE, 300, 0), 1f)
                     .build()));
 
     public static final RegistryObject<Item> PELMENI_BOWL_WITH_MAYONNAISE = ITEMS.register("pelmeni_bowl_with_mayonnaise",
@@ -79,7 +79,7 @@ public class ModItems {
                     .hunger(11)
                     .saturation(2.3f)
                     .effect(() -> new EffectInstance(Effects.REGENERATION, 100, 0), 1f)
-                    .effect(() -> new EffectInstance(Effects.HASTE, 600, 0), 1f)
+                    .effect(() -> new EffectInstance(Effects.HASTE, 300, 0), 1f)
                     .effect(() -> new EffectInstance(Effects.SPEED, 300, 0), 1f)
                     .build()));
 
@@ -88,7 +88,7 @@ public class ModItems {
                     .hunger(11)
                     .saturation(2.3f)
                     .effect(() -> new EffectInstance(Effects.REGENERATION, 100, 0), 1f)
-                    .effect(() -> new EffectInstance(Effects.HASTE, 600, 0), 1f)
+                    .effect(() -> new EffectInstance(Effects.HASTE, 300, 0), 1f)
                     .effect(() -> new EffectInstance(Effects.SATURATION, 800, 0), 1f)
                     .build()));
 
@@ -96,25 +96,25 @@ public class ModItems {
             () -> new PelmeniBowl(new Food.Builder()
                     .hunger(12)
                     .saturation(2.4f)
-                    .effect(() -> new EffectInstance(Effects.REGENERATION, 100, 0), 1f)
-                    .effect(() -> new EffectInstance(Effects.STRENGTH, 600, 0), 1f)
+                    .effect(() -> new EffectInstance(Effects.REGENERATION, 150, 0), 1f)
+                    .effect(() -> new EffectInstance(Effects.STRENGTH, 300, 0), 1f)
                     .build()));
 
     public static final RegistryObject<Item> FRIED_PELMENI_BOWL_WITH_MAYONNAISE = ITEMS.register("fried_pelmeni_bowl_with_mayonnaise",
             () -> new PelmeniBowl(new Food.Builder()
                     .hunger(14)
                     .saturation(2.6f)
-                    .effect(() -> new EffectInstance(Effects.REGENERATION, 100, 0), 1f)
-                    .effect(() -> new EffectInstance(Effects.STRENGTH, 600, 0), 1f)
-                    .effect(() -> new EffectInstance(Effects.SPEED, 300, 0), 1f)
+                    .effect(() -> new EffectInstance(Effects.REGENERATION, 150, 0), 1f)
+                    .effect(() -> new EffectInstance(Effects.STRENGTH, 300, 0), 1f)
+                    .effect(() -> new EffectInstance(Effects.SPEED, 450, 0), 1f)
                     .build()));
 
     public static final RegistryObject<Item> FRIED_PELMENI_BOWL_WITH_SMETANA = ITEMS.register("fried_pelmeni_bowl_with_smetana",
             () -> new PelmeniBowl(new Food.Builder()
                     .hunger(14)
                     .saturation(2.6f)
-                    .effect(() -> new EffectInstance(Effects.REGENERATION, 100, 0), 1f)
-                    .effect(() -> new EffectInstance(Effects.STRENGTH, 600, 0), 1f)
+                    .effect(() -> new EffectInstance(Effects.REGENERATION, 150, 0), 1f)
+                    .effect(() -> new EffectInstance(Effects.STRENGTH, 300, 0), 1f)
                     .effect(() -> new EffectInstance(Effects.SATURATION, 1200, 0), 1f)
                     .build()));
 
