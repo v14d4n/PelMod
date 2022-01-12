@@ -2,6 +2,7 @@ package com.v14d4n.pelmenicraft.data.recipes;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.v14d4n.pelmenicraft.PelmeniCraft;
 import com.v14d4n.pelmenicraft.block.ModBlocks;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
@@ -69,16 +70,18 @@ public class MeatGrinderRecipe implements IMeatGrinderRecipe {
 
     public static class Serializer extends ForgeRegistryEntry<IRecipeSerializer<?>>
             implements IRecipeSerializer<MeatGrinderRecipe> {
+
         @Override
         public MeatGrinderRecipe read(ResourceLocation recipeId, JsonObject json) {
-            ItemStack output = ShapedRecipe.deserializeItem(JSONUtils.getJsonObject(json, "output"));
+            NonNullList<Ingredient> inputs = NonNullList.withSize(1, Ingredient.EMPTY);
 
             JsonArray ingredients = JSONUtils.getJsonArray(json, "ingredients");
-            NonNullList<Ingredient> inputs = NonNullList.withSize(1, Ingredient.EMPTY);
 
             for (int i = 0; i < inputs.size(); i++) {
                 inputs.set(i, Ingredient.deserialize(ingredients.get(i)));
             }
+
+            ItemStack output = ShapedRecipe.deserializeItem(JSONUtils.getJsonObject(json, "output"));
 
             return new MeatGrinderRecipe(recipeId, output, inputs);
         }
@@ -93,15 +96,16 @@ public class MeatGrinderRecipe implements IMeatGrinderRecipe {
             }
 
             ItemStack output = buffer.readItemStack();
+
             return new MeatGrinderRecipe(recipeId, output, inputs);
         }
 
         @Override
         public void write(PacketBuffer buffer, MeatGrinderRecipe recipe) {
-            buffer.writeInt(recipe.getIngredients().size());
-            for (Ingredient ing : recipe.getIngredients()) {
-                ing.write(buffer);
+            for (Ingredient input : recipe.getIngredients()) {
+                input.write(buffer);
             }
+
             buffer.writeItemStack(recipe.getRecipeOutput(), false);
         }
     }
