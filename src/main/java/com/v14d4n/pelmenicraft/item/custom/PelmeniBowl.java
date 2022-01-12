@@ -1,16 +1,15 @@
 package com.v14d4n.pelmenicraft.item.custom;
 
-import com.v14d4n.pelmenicraft.item.ModItemGroup;
+import com.v14d4n.pelmenicraft.item.ModCreativeModTab;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.*;
-import net.minecraft.nbt.*;
 import net.minecraft.world.World;
 
 public class PelmeniBowl extends Item {
     public PelmeniBowl(int maxUses, Food foodBuilder) {
         super(new Item.Properties()
-                .group(ModItemGroup.PELMENICRAFT_GROUP).setNoRepair()
+                .group(ModCreativeModTab.PELMENICRAFT_TAB).setNoRepair()
                 .maxStackSize(1).maxDamage(maxUses).food(foodBuilder));
     }
 

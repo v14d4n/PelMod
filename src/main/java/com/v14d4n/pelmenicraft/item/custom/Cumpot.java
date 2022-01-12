@@ -1,5 +1,5 @@
 package com.v14d4n.pelmenicraft.item.custom;
-import com.v14d4n.pelmenicraft.item.ModItemGroup;
+import com.v14d4n.pelmenicraft.item.ModCreativeModTab;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.*;
@@ -7,7 +7,7 @@ import net.minecraft.world.World;
 
 public class Cumpot extends Item {
     public Cumpot(Food foodBuilder) {
-        super(new Item.Properties().group(ModItemGroup.PELMENICRAFT_GROUP)
+        super(new Item.Properties().group(ModCreativeModTab.PELMENICRAFT_TAB)
                 .maxStackSize(1)
                 .food(foodBuilder));
     }

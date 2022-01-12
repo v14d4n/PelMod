@@ -1,13 +1,14 @@
 package com.v14d4n.pelmenicraft.item.custom;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipeType;
-import net.minecraft.util.DamageSource;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeType;
 
 import javax.annotation.Nullable;
+import java.util.Random;
 
 public class RollingPin extends Item {
     public RollingPin(Properties properties) {
@@ -15,16 +16,16 @@ public class RollingPin extends Item {
     }
 
     @Override
-    public boolean onLeftClickEntity(ItemStack itemStack, PlayerEntity player, Entity entity) {
-        entity.attackEntityFrom(DamageSource.causePlayerDamage(player), 3);
-        itemStack.damageItem(1, player, p -> p.sendBreakAnimation(p.getActiveHand()));
-        return super.onLeftClickEntity(itemStack, player, entity);
+    public boolean onLeftClickEntity(ItemStack stack, Player player, Entity entity) {
+        entity.hurt(DamageSource.playerAttack(player), 3);
+        stack.hurtAndBreak(1, player, p -> p.broadcastBreakEvent(p.getUsedItemHand()));
+        return super.onLeftClickEntity(stack, player, entity);
     }
 
     @Override
     public ItemStack getContainerItem(ItemStack itemStack) {
         ItemStack container = itemStack.copy();
-        if (container.attemptDamageItem(1, random, null)) {
+        if (container.hurt(1, new Random(), null)) {
             return ItemStack.EMPTY;
         } else {
             return container;
@@ -32,7 +33,7 @@ public class RollingPin extends Item {
     }
 
     @Override
-    public int getBurnTime(ItemStack itemStack, @Nullable IRecipeType<?> recipeType) {
+    public int getBurnTime(ItemStack itemStack, @Nullable RecipeType<?> recipeType) {
         return 26;
     }
 

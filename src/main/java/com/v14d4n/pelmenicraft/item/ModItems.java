@@ -4,12 +4,10 @@ import com.v14d4n.pelmenicraft.PelmeniCraft;
 import com.v14d4n.pelmenicraft.item.custom.Cumpot;
 import com.v14d4n.pelmenicraft.item.custom.PelmeniBowl;
 import com.v14d4n.pelmenicraft.item.custom.RollingPin;
-import net.minecraft.item.Food;
-import net.minecraft.item.Item;
-import net.minecraft.potion.EffectInstance;
-import net.minecraft.potion.Effects;
+import net.minecraft.client.renderer.EffectInstance;
+import net.minecraft.world.item.Item;
 import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.fml.RegistryObject;
+import net.minecraftforge.fmllegacy.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 
@@ -18,8 +16,7 @@ public class ModItems {
             DeferredRegister.create(ForgeRegistries.ITEMS, PelmeniCraft.MOD_ID);
 
     public static final RegistryObject<Item> ROLLING_PIN = ITEMS.register("rolling_pin",
-            () -> new RollingPin(new Item.Properties().group(ModItemGroup.PELMENICRAFT_GROUP)
-                    .defaultMaxDamage(8)));
+            () -> new RollingPin(new Item.Properties().tab(ModCreativeModTab.PELMENICRAFT_TAB).defaultDurability(8)));
 
     public static final RegistryObject<Item> CUMPOT = ITEMS.register("cumpot",
             () -> new Cumpot(new Food.Builder()
@@ -31,7 +28,7 @@ public class ModItems {
                     .build()));
 
     public static final RegistryObject<Item> PELMEN = ITEMS.register("pelmen",
-            () -> new Item(new Item.Properties().group(ModItemGroup.PELMENICRAFT_GROUP)
+            () -> new Item(new Item.Properties().tab(ModCreativeModTab.PELMENICRAFT_TAB)
                     .food(new Food.Builder()
                             .fastToEat()
                             .meat()
@@ -40,7 +37,7 @@ public class ModItems {
                             .build())));
 
     public static final RegistryObject<Item> FRIED_PELMEN = ITEMS.register("fried_pelmen",
-            () -> new Item(new Item.Properties().group(ModItemGroup.PELMENICRAFT_GROUP)
+            () -> new Item(new Item.Properties().tab(ModCreativeModTab.PELMENICRAFT_TAB)
                     .food(new Food.Builder()
                             .fastToEat()
                             .meat()
@@ -51,7 +48,7 @@ public class ModItems {
                             .build())));
 
     public static final RegistryObject<Item> MAYONNAISE = ITEMS.register("mayonnaise",
-            () -> new Item(new Item.Properties().group(ModItemGroup.PELMENICRAFT_GROUP)
+            () -> new Item(new Item.Properties().tab(ModCreativeModTab.PELMENICRAFT_TAB)
                     .food(new Food.Builder()
                             .fastToEat()
                             .hunger(2)
@@ -59,7 +56,7 @@ public class ModItems {
                             .build())));
 
     public static final RegistryObject<Item> SMETANA = ITEMS.register("smetana",
-            () -> new Item(new Item.Properties().group(ModItemGroup.PELMENICRAFT_GROUP)
+            () -> new Item(new Item.Properties().tab(ModCreativeModTab.PELMENICRAFT_TAB)
                     .food(new Food.Builder()
                             .fastToEat()
                             .hunger(2)
@@ -119,21 +116,21 @@ public class ModItems {
                     .build()));
 
     public static final RegistryObject<Item> DOUGH = ITEMS.register("dough",
-            () -> new Item(new Item.Properties().group(ModItemGroup.PELMENICRAFT_GROUP)
+            () -> new Item(new Item.Properties().tab(ModCreativeModTab.PELMENICRAFT_TAB)
                     .food(new Food.Builder()
                             .hunger(3)
                             .saturation(0.6f)
                             .build())));
 
     public static final RegistryObject<Item> ROLLED_DOUGH = ITEMS.register("rolled_dough",
-            () -> new Item(new Item.Properties().group(ModItemGroup.PELMENICRAFT_GROUP)
+            () -> new Item(new Item.Properties().tab(ModCreativeModTab.PELMENICRAFT_TAB)
                     .food(new Food.Builder()
                             .hunger(3)
                             .saturation(0.6f)
                             .build())));
 
     public static final RegistryObject<Item> GROUNDMEAT = ITEMS.register("groundmeat",
-            () -> new Item(new Item.Properties().group(ModItemGroup.PELMENICRAFT_GROUP)
+            () -> new Item(new Item.Properties().tab(ModCreativeModTab.PELMENICRAFT_TAB)
                     .food(new Food.Builder()
                             .meat()
                             .hunger(2)
