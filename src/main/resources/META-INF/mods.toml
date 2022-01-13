@@ -33,7 +33,7 @@ logoFile="pelmenicraft.png" #optional
 # A text field displayed in the mod UI
 authors="v14d4n" #optional
 # The description text for the mod (multi line!) (#mandatory)
-description=""
+description="    Pelmeni and something from Russian cuisine"
 # A dependency - use the . to indicate dependency for a specific modid. Dependencies are optional.
 [[dependencies.pelmenicraft]] #optional
     # the modid of the dependency
