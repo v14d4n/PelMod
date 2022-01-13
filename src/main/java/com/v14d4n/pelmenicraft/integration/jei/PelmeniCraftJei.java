@@ -8,8 +8,8 @@ import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.registration.IRecipeCategoryRegistration;
 import mezz.jei.api.registration.IRecipeRegistration;
 import net.minecraft.client.Minecraft;
-import net.minecraft.item.crafting.RecipeManager;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.crafting.RecipeManager;
 
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -29,8 +29,8 @@ public class PelmeniCraftJei implements IModPlugin {
 
     @Override
     public void registerRecipes(IRecipeRegistration registration) {
-        RecipeManager rm = Objects.requireNonNull(Minecraft.getInstance().world).getRecipeManager();
-        registration.addRecipes(rm.getRecipesForType(ModRecipeTypes.GRINDING_RECIPE).stream()
+        RecipeManager rm = Objects.requireNonNull(Minecraft.getInstance().level).getRecipeManager();
+        registration.addRecipes(rm.getAllRecipesFor(ModRecipeTypes.GRINDING_RECIPE).stream()
                 .filter(r -> r instanceof MeatGrinderRecipe).collect(Collectors.toList()),
                 MeatGrinderRecipeCategory.UID);
     }

@@ -2,16 +2,18 @@ package com.v14d4n.pelmenicraft.data.recipes;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import com.v14d4n.pelmenicraft.PelmeniCraft;
 import com.v14d4n.pelmenicraft.block.ModBlocks;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.*;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.JSONUtils;
-import net.minecraft.util.NonNullList;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.World;
+import net.minecraft.core.NonNullList;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.GsonHelper;
+import net.minecraft.world.Container;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.item.crafting.ShapedRecipe;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 
 import javax.annotation.Nullable;
@@ -28,8 +30,8 @@ public class MeatGrinderRecipe implements IMeatGrinderRecipe {
     }
 
     @Override
-    public boolean matches(IInventory inv, World worldIn) {
-        return recipeItems.get(0).test(inv.getStackInSlot(0));
+    public boolean matches(Container pContainer, Level pLevel) {
+        return recipeItems.get(0).test(pContainer.getItem(0));
     }
 
     @Override
@@ -38,12 +40,12 @@ public class MeatGrinderRecipe implements IMeatGrinderRecipe {
     }
 
     @Override
-    public ItemStack getCraftingResult(IInventory inv) {
+    public ItemStack assemble(Container pContainer) {
         return output;
     }
 
     @Override
-    public ItemStack getRecipeOutput() {
+    public ItemStack getResultItem() {
         return output.copy();
     }
 
@@ -57,56 +59,56 @@ public class MeatGrinderRecipe implements IMeatGrinderRecipe {
     }
 
     @Override
-    public IRecipeSerializer<?> getSerializer() {
+    public RecipeSerializer<?> getSerializer() {
         return ModRecipeTypes.GRINDING_SERIALIZER.get();
     }
 
-    public static class GrindingRecipeType implements IRecipeType<MeatGrinderRecipe> {
+    public static class GrindingRecipeType implements RecipeType<MeatGrinderRecipe> {
         @Override
         public String toString() {
             return MeatGrinderRecipe.TYPE_ID.toString();
         }
     }
 
-    public static class Serializer extends ForgeRegistryEntry<IRecipeSerializer<?>>
-            implements IRecipeSerializer<MeatGrinderRecipe> {
+    public static class Serializer extends ForgeRegistryEntry<RecipeSerializer<?>>
+            implements RecipeSerializer<MeatGrinderRecipe> {
 
         @Override
-        public MeatGrinderRecipe read(ResourceLocation recipeId, JsonObject json) {
+        public MeatGrinderRecipe fromJson(ResourceLocation pRecipeId, JsonObject pSerializedRecipe) {
             NonNullList<Ingredient> inputs = NonNullList.withSize(1, Ingredient.EMPTY);
 
-            JsonArray ingredients = JSONUtils.getJsonArray(json, "ingredients");
+            JsonArray ingredients = GsonHelper.getAsJsonArray(pSerializedRecipe, "ingredients");
 
             for (int i = 0; i < inputs.size(); i++) {
-                inputs.set(i, Ingredient.deserialize(ingredients.get(i)));
+                inputs.set(i, Ingredient.fromJson(ingredients.get(i)));
             }
 
-            ItemStack output = ShapedRecipe.deserializeItem(JSONUtils.getJsonObject(json, "output"));
+            ItemStack output = ShapedRecipe.itemStackFromJson(GsonHelper.getAsJsonObject(pSerializedRecipe, "output"));
 
-            return new MeatGrinderRecipe(recipeId, output, inputs);
+            return new MeatGrinderRecipe(pRecipeId, output, inputs);
         }
 
         @Nullable
         @Override
-        public MeatGrinderRecipe read(ResourceLocation recipeId, PacketBuffer buffer) {
+        public MeatGrinderRecipe fromNetwork(ResourceLocation pRecipeId, FriendlyByteBuf pBuffer) {
             NonNullList<Ingredient> inputs = NonNullList.withSize(1, Ingredient.EMPTY);
 
             for (int i = 0; i < inputs.size(); i++) {
-                inputs.set(i, Ingredient.read(buffer));
+                inputs.set(i, Ingredient.fromNetwork(pBuffer));
             }
 
-            ItemStack output = buffer.readItemStack();
+            ItemStack output = pBuffer.readItem();
 
-            return new MeatGrinderRecipe(recipeId, output, inputs);
+            return new MeatGrinderRecipe(pRecipeId, output, inputs);
         }
 
         @Override
-        public void write(PacketBuffer buffer, MeatGrinderRecipe recipe) {
-            for (Ingredient input : recipe.getIngredients()) {
-                input.write(buffer);
+        public void toNetwork(FriendlyByteBuf pBuffer, MeatGrinderRecipe pRecipe) {
+            for (Ingredient input : pRecipe.getIngredients()) {
+                input.toNetwork(pBuffer);
             }
 
-            buffer.writeItemStack(recipe.getRecipeOutput(), false);
+            pBuffer.writeItemStack(pRecipe.getResultItem(), false);
         }
     }
 }

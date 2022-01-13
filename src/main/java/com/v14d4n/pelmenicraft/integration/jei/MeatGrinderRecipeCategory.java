@@ -9,8 +9,9 @@ import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.category.IRecipeCategory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
 
 public class MeatGrinderRecipeCategory implements IRecipeCategory<MeatGrinderRecipe> {
     public final static ResourceLocation UID = new ResourceLocation(PelmeniCraft.MOD_ID, "grinding");
@@ -36,8 +37,8 @@ public class MeatGrinderRecipeCategory implements IRecipeCategory<MeatGrinderRec
     }
 
     @Override
-    public String getTitle() {
-        return ModBlocks.MEAT_GRINDER.get().getTranslatedName().getString();
+    public Component getTitle() {
+        return ModBlocks.MEAT_GRINDER.get().getName();
     }
 
     @Override
@@ -53,7 +54,7 @@ public class MeatGrinderRecipeCategory implements IRecipeCategory<MeatGrinderRec
     @Override
     public void setIngredients(MeatGrinderRecipe recipe, IIngredients ingredients) {
         ingredients.setInputIngredients(recipe.getIngredients());
-        ingredients.setOutput(VanillaTypes.ITEM, recipe.getRecipeOutput());
+        ingredients.setOutput(VanillaTypes.ITEM, recipe.getResultItem());
     }
 
     @Override

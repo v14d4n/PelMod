@@ -1,24 +1,29 @@
 package com.v14d4n.pelmenicraft.item.custom;
 
 import com.v14d4n.pelmenicraft.item.ModCreativeModTab;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.*;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.food.FoodProperties;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.Level;
+
+import java.util.Random;
 
 public class PelmeniBowl extends Item {
-    public PelmeniBowl(int maxUses, Food foodBuilder) {
+    public PelmeniBowl(int maxUses, FoodProperties foodBuilder) {
         super(new Item.Properties()
-                .group(ModCreativeModTab.PELMENICRAFT_TAB).setNoRepair()
-                .maxStackSize(1).maxDamage(maxUses).food(foodBuilder));
+                .tab(ModCreativeModTab.PELMENICRAFT_TAB).setNoRepair()
+                .stacksTo(1).durability(maxUses).food(foodBuilder));
     }
 
-    public PelmeniBowl(Food foodBuilder) {
+    public PelmeniBowl(FoodProperties foodBuilder) {
         this(2, foodBuilder);
     }
 
     @Override
-    public boolean isFood() {
+    public boolean isEdible() {
         return true;
     }
 
@@ -28,14 +33,14 @@ public class PelmeniBowl extends Item {
     }
 
     @Override
-    public ItemStack onItemUseFinish(ItemStack stack, World worldIn, LivingEntity entityLiving) {
-        ItemStack container = stack.copy();
-        ItemStack itemStack = super.onItemUseFinish(stack, worldIn, entityLiving);
+    public ItemStack finishUsingItem(ItemStack pStack, Level pLevel, LivingEntity pLivingEntity) {
+        ItemStack container = pStack.copy();
+        ItemStack itemStack = super.finishUsingItem(pStack, pLevel, pLivingEntity);
 
-        if (entityLiving instanceof PlayerEntity && ((PlayerEntity)entityLiving).abilities.isCreativeMode) {
+        if (pLivingEntity instanceof Player && ((Player)pLivingEntity).getAbilities().instabuild) {
             return itemStack;
-        } else if (!container.attemptDamageItem(1, random, null)) {
-            container.getOrCreateTag().put("Damaged", StringNBT.valueOf("true"));
+        } else if (!container.hurt(1, new Random(), null)) {
+            container.getOrCreateTag().putBoolean("Damaged", true);
             return container;
         }
         return new ItemStack(Items.BOWL);

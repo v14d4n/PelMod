@@ -1,8 +1,5 @@
 package com.v14d4n.pelmenicraft.item;
 
-import mcp.MethodsReturnNonnullByDefault;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 

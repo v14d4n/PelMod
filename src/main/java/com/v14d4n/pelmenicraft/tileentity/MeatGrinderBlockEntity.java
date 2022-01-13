@@ -2,13 +2,14 @@ package com.v14d4n.pelmenicraft.tileentity;
 
 import com.v14d4n.pelmenicraft.data.recipes.MeatGrinderRecipe;
 import com.v14d4n.pelmenicraft.data.recipes.ModRecipeTypes;
-import net.minecraft.block.BlockState;
-import net.minecraft.inventory.Inventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityType;
-import net.minecraft.util.Direction;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.SimpleContainer;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.CapabilityItemHandler;
@@ -19,42 +20,38 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Optional;
 
-public class MeatGrinderTile extends TileEntity {
+public class MeatGrinderBlockEntity extends BlockEntity {
 
     private final ItemStackHandler itemHandler = createHandler();
     private final LazyOptional<IItemHandler> handler = LazyOptional.of(() -> itemHandler);
 
-    public MeatGrinderTile(TileEntityType<?> tileEntityTypeIn) {
-        super(tileEntityTypeIn);
-    }
-
-    public MeatGrinderTile() {
-        this(ModTileEntities.MEAT_GRINDER_TILE.get());
+    public MeatGrinderBlockEntity(BlockPos blockPos, BlockState blockState) { // затычка
+        super(ModTileEntities.MEAT_GRINDER_TILE.get(), blockPos, blockState); // FIXME: еще тут могуть быть ошибки
     }
 
     @Override
-    public void read(BlockState state, CompoundNBT nbt) {
-        itemHandler.deserializeNBT(nbt.getCompound("inv"));
-        super.read(state, nbt);
+    public void load(CompoundTag pTag) {
+        itemHandler.deserializeNBT(pTag.getCompound("inv"));
+        super.load(pTag);
     }
 
     @Override
-    public CompoundNBT write(CompoundNBT compound) {
-        compound.put("inv", itemHandler.serializeNBT());
-        return super.write(compound);
+    public CompoundTag save(CompoundTag pTag) {
+        pTag.put("inv", itemHandler.serializeNBT());
+        return super.save(pTag);
     }
 
     private ItemStackHandler createHandler() {
         return new ItemStackHandler(1) {
             @Override
             protected void onContentsChanged(int slot) {
-                markDirty();
+                setChanged();
             }
 
             @Override
             public boolean isItemValid(int slot, @Nonnull ItemStack stack) {
 
-                return world.getRecipeManager().getRecipesForType(ModRecipeTypes.GRINDING_RECIPE).stream()
+                return level.getRecipeManager().getAllRecipesFor(ModRecipeTypes.GRINDING_RECIPE).stream()
                         .flatMap(ing -> ing.getIngredients().stream())
                         .anyMatch(ing -> ing.test(stack));
             }
@@ -81,7 +78,7 @@ public class MeatGrinderTile extends TileEntity {
     }
 
     public boolean isItemValid(ItemStack itemStack) {
-        return world.getRecipeManager().getRecipesForType(ModRecipeTypes.GRINDING_RECIPE).stream()
+        return level.getRecipeManager().getAllRecipesFor(ModRecipeTypes.GRINDING_RECIPE).stream()
                 .flatMap(ing -> ing.getIngredients().stream())
                 .anyMatch(ing -> ing.test(itemStack));
     }
@@ -99,7 +96,7 @@ public class MeatGrinderTile extends TileEntity {
     }
 
     public ItemStack getStackInSlot() {
-        return itemHandler.getStackInSlot(0).getStack();
+        return itemHandler.getStackInSlot(0);
     }
 
     public int addItemToSlot(ItemStack itemStack) {
@@ -114,17 +111,17 @@ public class MeatGrinderTile extends TileEntity {
     }
 
     public ItemStack craftAndGetCraftedItem() {
-        if (!world.isRemote) {
-            Inventory inv = new Inventory(itemHandler.getSlots());
+        if (!level.isClientSide) {
+            SimpleContainer inv = new SimpleContainer(itemHandler.getSlots());
             for (int i = 0; i < itemHandler.getSlots(); i++) {
-                inv.setInventorySlotContents(i, itemHandler.getStackInSlot(i));
+                inv.setItem(i, itemHandler.getStackInSlot(i));
             }
 
-            Optional<MeatGrinderRecipe> recipe = world.getRecipeManager().getRecipe(ModRecipeTypes.GRINDING_RECIPE, inv, world);
+            Optional<MeatGrinderRecipe> recipe = level.getRecipeManager().getRecipeFor(ModRecipeTypes.GRINDING_RECIPE, inv, level);
 
             if (recipe.isPresent()) {
                 itemHandler.extractItem(0, 1, false);
-                return recipe.get().getRecipeOutput();
+                return recipe.get().getResultItem();
             }
         }
         return ItemStack.EMPTY;

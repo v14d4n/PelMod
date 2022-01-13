@@ -7,6 +7,9 @@ import com.v14d4n.pelmenicraft.item.ModItems;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fmllegacy.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
@@ -20,20 +23,18 @@ public class ModBlocks {
             DeferredRegister.create(ForgeRegistries.BLOCKS, PelmeniCraft.MOD_ID);
 
     public static final RegistryObject<Block> PELMENI_BLOCK = registerBlock("pelmeni_block",
-            () -> new Block(AbstractBlock.Properties.create(Material.SNOW_BLOCK).sound(SoundType.SNOW)
-                    .hardnessAndResistance(1.5f).harvestLevel(0).harvestTool(ToolType.SHOVEL)));
+            () -> new Block(BlockBehaviour.Properties.copy(Blocks.SNOW_BLOCK).sound(SoundType.SNOW)
+                    .strength(1.5f)));
 
     public static final RegistryObject<Block> FRIED_PELMENI_BLOCK = registerBlock("fried_pelmeni_block",
-            () -> new Block(AbstractBlock.Properties.create(Material.SNOW_BLOCK).sound(SoundType.SNOW)
-                    .hardnessAndResistance(1.5f).harvestLevel(0).harvestTool(ToolType.SHOVEL)));
+            () -> new Block(BlockBehaviour.Properties.copy(Blocks.SNOW_BLOCK).sound(SoundType.SNOW)
+                    .strength(1.5f)));
 
     public static final RegistryObject<Block> MEAT_GRINDER = registerBlock("meat_grinder",
-            () -> new MeatGrinderBlock(AbstractBlock.Properties.create(Material.IRON).sound(SoundType.METAL)
-                    .harvestTool(ToolType.PICKAXE)
-                    .harvestLevel(0)
-                    .hardnessAndResistance(3f)
-                    .setRequiresTool()
-                    .notSolid()));
+            () -> new MeatGrinderBlock(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).sound(SoundType.METAL) // FIXME: возможно надо будет что-то тут поменять
+                    .strength(3f)
+                    .requiresCorrectToolForDrops()
+                    .noOcclusion()));
 
     public static <T extends Block> RegistryObject<T> registerBlock(String name, Supplier<T> block) {
         RegistryObject<T> toReturn = BLOCKS.register(name, block);
