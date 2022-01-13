@@ -10,6 +10,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.material.Material;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fmllegacy.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
@@ -23,12 +24,12 @@ public class ModBlocks {
             DeferredRegister.create(ForgeRegistries.BLOCKS, PelmeniCraft.MOD_ID);
 
     public static final RegistryObject<Block> PELMENI_BLOCK = registerBlock("pelmeni_block",
-            () -> new Block(BlockBehaviour.Properties.copy(Blocks.SNOW_BLOCK).sound(SoundType.SNOW)
-                    .strength(1.5f)));
+            () -> new Block(BlockBehaviour.Properties.of(Material.SNOW).sound(SoundType.SNOW)
+                    .strength(1.5f,  1.5f)));
 
     public static final RegistryObject<Block> FRIED_PELMENI_BLOCK = registerBlock("fried_pelmeni_block",
-            () -> new Block(BlockBehaviour.Properties.copy(Blocks.SNOW_BLOCK).sound(SoundType.SNOW)
-                    .strength(1.5f)));
+            () -> new Block(BlockBehaviour.Properties.of(Material.SNOW).sound(SoundType.SNOW)
+                    .strength(1.5f, 1.5f)));
 
     public static final RegistryObject<Block> MEAT_GRINDER = registerBlock("meat_grinder",
             () -> new MeatGrinderBlock(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).sound(SoundType.METAL) // FIXME: возможно надо будет что-то тут поменять

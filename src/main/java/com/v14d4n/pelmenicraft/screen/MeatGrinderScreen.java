@@ -31,7 +31,7 @@ public class MeatGrinderScreen extends AbstractContainerScreen<MeatGrinderContai
         RenderSystem.setShaderTexture(0, GUI);
         int i = this.leftPos;
         int j = this.topPos;
-        this.minecraft.getTextureManager().bindForSetup(GUI);
+        //this.minecraft.getTextureManager().bindForSetup(GUI);
         this.blit(pPoseStack, i, j, 0, 0, this.imageWidth, this.imageHeight);
     }
 }

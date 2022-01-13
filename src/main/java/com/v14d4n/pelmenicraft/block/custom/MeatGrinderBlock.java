@@ -4,6 +4,9 @@ import com.v14d4n.pelmenicraft.container.MeatGrinderContainer;
 import com.v14d4n.pelmenicraft.tileentity.MeatGrinderBlockEntity;
 import com.v14d4n.pelmenicraft.tileentity.ModTileEntities;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.BlockParticleOption;
+import net.minecraft.core.particles.ParticleOptions;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerPlayer;
@@ -21,12 +24,14 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.CollisionContext;
@@ -35,6 +40,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.fmllegacy.network.NetworkHooks;
 
 import javax.annotation.Nullable;
+import java.util.List;
 import java.util.stream.Stream;
 
 
@@ -319,35 +325,27 @@ public class MeatGrinderBlock extends HorizontalDirectionalBlock implements Enti
         };
     }
 
-//    @Override
-//    public boolean addDestroyEffects(BlockState state, World world, BlockPos pos, ParticleManager manager) {
-//        for (int i = 0; i < 10; i++) {
-//            manager.addParticle(new BlockParticleData(ParticleTypes.BLOCK, state),
-//                    pos.getX() + 0.5f,
-//                    pos.getY() + 0.6f - RANDOM.nextDouble() / 2f,
-//                    pos.getZ() + 0.5f,
-//                    0.00d, 0.05d, 0.00d);
-//        }
-//        return true;
-//    }
 
-//    @Override
-//    public void onReplaced(BlockState state, World worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
-//        BlockEntity blockEntity = worldIn.getBlockEntity(pos);
-//        if (blockEntity instanceof MeatGrinderBlockEntity) {
-//            spawnAsEntity(worldIn, pos, ((MeatGrinderBlockEntity) blockEntity).getStackInSlot());
-//        }
-//        super.onReplaced(state, worldIn, pos, newState, isMoving);
-//    }
+    @Override
+    protected void spawnDestroyParticles(Level pLevel, Player pPlayer, BlockPos pPos, BlockState pState) {
+        for (int i = 0; i < 20; i++) {
+            pLevel.addParticle(new BlockParticleOption(ParticleTypes.BLOCK, pState),
+                    pPos.getX() + 0.5f,
+                    pPos.getY() + 0.6f - RANDOM.nextDouble() / 2f,
+                    pPos.getZ() + 0.5f,
+                    0.00d, 0.05d, 0.00d);
+        }
+        pLevel.playSound(null, pPos, SoundEvents.METAL_BREAK, SoundSource.BLOCKS, 1f, 1f);
+    }
 
-//    @Override
-//    public void onPlayerDestroy(IWorld worldIn, BlockPos pos, BlockState state) {
-//        TileEntity tileEntity = worldIn.getTileEntity(pos);
-//        if (tileEntity instanceof MeatGrinderBlockEntity) {
-//            spawnAsEntity((World)worldIn, pos, ((MeatGrinderBlockEntity) tileEntity).getStackInSlot());
-//        }
-//        super.onPlayerDestroy(worldIn, pos, state);
-//    }
+    @Override
+    public void onRemove(BlockState pState, Level pLevel, BlockPos pPos, BlockState pNewState, boolean pIsMoving) {
+        BlockEntity blockEntity = pLevel.getBlockEntity(pPos);
+        if (blockEntity instanceof MeatGrinderBlockEntity) {
+            popResource(pLevel, pPos, ((MeatGrinderBlockEntity) blockEntity).getStackInSlot());
+        }
+        super.onRemove(pState, pLevel, pPos, pNewState, pIsMoving);
+    }
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> pBuilder) {
