@@ -1,6 +1,5 @@
 package com.v14d4n.pelmenicraft;
 
-import com.mojang.blaze3d.platform.ScreenManager;
 import com.v14d4n.pelmenicraft.block.ModBlocks;
 import com.v14d4n.pelmenicraft.container.ModContainers;
 import com.v14d4n.pelmenicraft.data.recipes.ModRecipeTypes;
