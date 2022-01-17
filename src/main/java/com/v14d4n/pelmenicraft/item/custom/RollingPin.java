@@ -19,14 +19,14 @@ public class RollingPin extends Item {
     @Override
     public boolean onLeftClickEntity(ItemStack stack, Player player, Entity entity) {
         entity.hurt(DamageSource.playerAttack(player), 3);
-        stack.hurtAndBreak(1, player, p -> p.broadcastBreakEvent(p.getUsedItemHand()));
+        stack.hurtAndBreak(2, player, p -> p.broadcastBreakEvent(p.getUsedItemHand()));
         return super.onLeftClickEntity(stack, player, entity);
     }
 
     @Override
     public ItemStack getContainerItem(ItemStack itemStack) {
         ItemStack container = itemStack.copy();
-        if (container.hurt(2, new Random(), null)) {
+        if (container.hurt(1, new Random(), null)) {
             return ItemStack.EMPTY;
         } else {
             return container;
