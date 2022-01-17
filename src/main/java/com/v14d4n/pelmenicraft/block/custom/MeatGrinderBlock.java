@@ -6,7 +6,9 @@ import com.v14d4n.pelmenicraft.tileentity.ModTileEntities;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.HorizontalBlock;
+import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.particle.ParticleManager;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.item.ItemEntity;
@@ -372,5 +374,17 @@ public class MeatGrinderBlock extends HorizontalBlock {
     @Override
     public boolean hasTileEntity(BlockState state) {
         return true;
+    }
+
+    @Override
+    public void addInformation(ItemStack stack, @Nullable IBlockReader worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
+
+        if (Screen.hasShiftDown()) {
+            tooltip.add(new TranslationTextComponent("tooltip.pelmenicraft.meat_grinder_shift"));
+        } else {
+            tooltip.add(new TranslationTextComponent("tooltip.pelmenicraft.meat_grinder"));
+        }
+
+        super.addInformation(stack, worldIn, tooltip, flagIn);
     }
 }
