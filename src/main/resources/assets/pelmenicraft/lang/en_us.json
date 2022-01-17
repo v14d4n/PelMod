@@ -21,5 +21,8 @@
 
   "screen.pelmenicraft.meat_grinder": "Meat Grinder",
 
-  "itemGroup.pelmeniCraftTab": "Pelmeni Craft"
+  "itemGroup.pelmeniCraftTab": "Pelmeni Craft",
+
+  "tooltip.pelmenicraft.meat_grinder": "Hold §6SHIFT§r for more information.",
+  "tooltip.pelmenicraft.meat_grinder_shift": "§6Sneak + Right-click§r on the meat grinder with the empty hand to open the menu."
 }

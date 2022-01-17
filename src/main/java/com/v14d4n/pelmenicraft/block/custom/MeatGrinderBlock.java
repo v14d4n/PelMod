@@ -3,6 +3,7 @@ package com.v14d4n.pelmenicraft.block.custom;
 import com.v14d4n.pelmenicraft.container.MeatGrinderContainer;
 import com.v14d4n.pelmenicraft.tileentity.MeatGrinderBlockEntity;
 import com.v14d4n.pelmenicraft.tileentity.ModTileEntities;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
@@ -20,6 +21,7 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -37,6 +39,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.network.NetworkHooks;
 
 import javax.annotation.Nullable;
+import java.util.List;
 import java.util.stream.Stream;
 
 
@@ -359,5 +362,17 @@ public class MeatGrinderBlock extends HorizontalDirectionalBlock implements Enti
     @Override
     public BlockEntity newBlockEntity(BlockPos pPos, BlockState pState) {
         return ModTileEntities.MEAT_GRINDER_TILE.get().create(pPos, pState);
+    }
+
+    @Override
+    public void appendHoverText(ItemStack pStack, @Nullable BlockGetter pLevel, List<Component> pTooltip, TooltipFlag pFlag) {
+
+        if (Screen.hasShiftDown()) {
+            pTooltip.add(new TranslatableComponent("tooltip.pelmenicraft.meat_grinder_shift"));
+        } else {
+            pTooltip.add(new TranslatableComponent("tooltip.pelmenicraft.meat_grinder"));
+        }
+
+        super.appendHoverText(pStack, pLevel, pTooltip, pFlag);
     }
 }
