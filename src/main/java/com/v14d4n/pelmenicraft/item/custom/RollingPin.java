@@ -1,5 +1,6 @@
 package com.v14d4n.pelmenicraft.item.custom;
 
+import com.v14d4n.pelmenicraft.item.ModCreativeModTab;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
@@ -11,14 +12,14 @@ import javax.annotation.Nullable;
 import java.util.Random;
 
 public class RollingPin extends Item {
-    public RollingPin(Properties properties) {
-        super(properties);
+    public RollingPin() {
+        super(new Item.Properties().tab(ModCreativeModTab.PELMENICRAFT_TAB).defaultDurability(32));
     }
 
     @Override
     public boolean onLeftClickEntity(ItemStack stack, Player player, Entity entity) {
         entity.hurt(DamageSource.playerAttack(player), 3);
-        stack.hurtAndBreak(1, player, p -> p.broadcastBreakEvent(p.getUsedItemHand()));
+        stack.hurtAndBreak(2, player, p -> p.broadcastBreakEvent(p.getUsedItemHand()));
         return super.onLeftClickEntity(stack, player, entity);
     }
 
