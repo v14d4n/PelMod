@@ -18,7 +18,7 @@ public class ModItems {
             DeferredRegister.create(ForgeRegistries.ITEMS, PelmeniCraft.MOD_ID);
 
     public static final RegistryObject<Item> ROLLING_PIN = ITEMS.register("rolling_pin",
-            () -> new RollingPin(new Item.Properties().tab(ModCreativeModTab.PELMENICRAFT_TAB).defaultDurability(8)));
+            RollingPin::new);
 
     public static final RegistryObject<Item> CUMPOT = ITEMS.register("cumpot",
             () -> new Cumpot(new FoodProperties.Builder()

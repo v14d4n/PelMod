@@ -1,5 +1,6 @@
 package com.v14d4n.pelmenicraft.item.custom;
 
+import com.v14d4n.pelmenicraft.item.ModCreativeModTab;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
@@ -11,8 +12,8 @@ import javax.annotation.Nullable;
 import java.util.Random;
 
 public class RollingPin extends Item {
-    public RollingPin(Properties properties) {
-        super(properties);
+    public RollingPin() {
+        super(new Item.Properties().tab(ModCreativeModTab.PELMENICRAFT_TAB).defaultDurability(32));
     }
 
     @Override
@@ -25,7 +26,7 @@ public class RollingPin extends Item {
     @Override
     public ItemStack getContainerItem(ItemStack itemStack) {
         ItemStack container = itemStack.copy();
-        if (container.hurt(1, new Random(), null)) {
+        if (container.hurt(2, new Random(), null)) {
             return ItemStack.EMPTY;
         } else {
             return container;
