@@ -1,6 +1,7 @@
 package com.v14d4n.pelmenicraft;
 
 import com.v14d4n.pelmenicraft.block.ModBlocks;
+import com.v14d4n.pelmenicraft.config.PelmeniCraftConfig;
 import com.v14d4n.pelmenicraft.container.ModContainers;
 import com.v14d4n.pelmenicraft.data.recipes.ModRecipeTypes;
 import com.v14d4n.pelmenicraft.item.ModItems;
@@ -16,7 +17,9 @@ import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.InterModComms;
+import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
@@ -51,6 +54,7 @@ public class PelmeniCraft {
         // Register the doClientStuff method for modloading
         eventBus.addListener(this::doClientStuff);
 
+        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, PelmeniCraftConfig.SPEC, "pelmenicraft-common.toml");
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
     }

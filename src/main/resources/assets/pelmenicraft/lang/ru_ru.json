@@ -24,5 +24,10 @@
   "itemGroup.pelmeniCraftTab": "Pelmeni Craft",
 
   "tooltip.pelmenicraft.meat_grinder": "Зажми §6SHIFT§r чтобы показать информацию.",
-  "tooltip.pelmenicraft.meat_grinder_shift": "§6Присядь + Нажми ПКМ§r пустой рукой по мясорубке, чтобы отрыть меню."
+  "tooltip.pelmenicraft.meat_grinder_shift": "\u00A76Присядь + Нажми ПКМ\u00A7r пустой рукой по мясорубке, чтобы отрыть меню.",
+
+  "chat.pelmenicraft.update_message": "\u00A76[PelmeniCraft]\u00A7r Новая версия!",
+  "chat.pelmenicraft.update_off": "\u00A76[PelmeniCraft]\u00A7r Уведомления о новой версии отключены.",
+  "chat.pelmenicraft.update_on": "\u00A76[PelmeniCraft]\u00A7r Уведомления о новой версии включены.",
+  "chat.pelmenicraft.link": "Ссылка"
 }
