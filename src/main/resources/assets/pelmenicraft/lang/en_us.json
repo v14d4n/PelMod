@@ -24,5 +24,10 @@
   "itemGroup.pelmeniCraftTab": "Pelmeni Craft",
 
   "tooltip.pelmenicraft.meat_grinder": "Hold §6SHIFT§r for more information.",
-  "tooltip.pelmenicraft.meat_grinder_shift": "§6Sneak + Right-click§r on the meat grinder with the empty hand to open the menu."
+  "tooltip.pelmenicraft.meat_grinder_shift": "\u00A76Sneak + Right-click\u00A7r on the meat grinder with an empty slot to open the menu or just §6drop raw meat into§r.",
+
+  "chat.pelmenicraft.update_message": "\u00A76[PelmeniCraft]\u00A7r New version is available!",
+  "chat.pelmenicraft.update_off": "\u00A76[PelmeniCraft]\u00A7r New version notifications are disabled.",
+  "chat.pelmenicraft.update_on": "\u00A76[PelmeniCraft]\u00A7r New version notifications are enabled.",
+  "chat.pelmenicraft.link": "Link"
 }
