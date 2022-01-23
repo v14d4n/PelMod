@@ -2,19 +2,19 @@
   "variants": {
     "facing=east": {
       "model": "pelmenicraft:block/meat_grinder",
-      "y": 0
+      "y": 90
     },
     "facing=north": {
       "model": "pelmenicraft:block/meat_grinder",
-      "y": 270
+      "y": 0
     },
     "facing=south": {
       "model": "pelmenicraft:block/meat_grinder",
-      "y": 90
+      "y": 180
     },
     "facing=west": {
       "model": "pelmenicraft:block/meat_grinder",
-      "y": 180
+      "y": 270
     }
   }
 }
